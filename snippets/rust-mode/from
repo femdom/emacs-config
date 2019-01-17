@@ -1,0 +1,8 @@
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+
+impl From<${1:Base}> for ${2:Error} {
+    fn from(source: $1) -> $2 {
+            Error::$3(source)
+    }
+}

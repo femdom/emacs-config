@@ -1,0 +1,7 @@
+# name: comblock
+# expand-env: ((yas/indent-line 'fixed) (yas/wrap-around-region 'nil))
+# --
+# ${1:$(make-string (- 75 yas--start-column) ?\-)} #
+#${1:$(make-string (/ (- 77 yas--start-column (string-width yas-text)) 2) ? )}${1:Title}${1:$(make-string (+ (mod (- 77 yas--start-column (string-width yas-text)) 2) (/ (- 77  yas--start-column (string-width yas-text)) 2)) ? )}#
+# ${1:$(make-string (- 75 yas--start-column) ?\-)} #
+$0

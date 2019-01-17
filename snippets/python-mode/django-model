@@ -1,0 +1,18 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# expand-env: ((yas/indent-line 'fixed) (yas/wrap-around-region 'nil))
+# name: Model
+# key: django-model
+# binding: direct-keybinding
+# group: django
+# --
+
+@python_2_unicode_compatible
+class ${1:Model}(models.Model):
+    $0
+    def __str__(self):
+        return ${2:self.name}
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = '${3:$1}'
+        verbose_name_plural = '${4:$1s}'

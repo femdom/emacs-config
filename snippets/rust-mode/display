@@ -1,0 +1,9 @@
+# name: Display
+# group: impl
+# --
+impl fmt::Display for ${1:} {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "$1{{${2:$(yas-rust-convert-args)}}}",
+               $2)
+    }
+}

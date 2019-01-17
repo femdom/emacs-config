@@ -1,0 +1,4 @@
+# name : comline
+# --
+/* ${1:$(make-string (/ (- 71 yas--start-column (string-width yas/text)) 2) ?-)} ${1:Line} ${1:$(make-string (+ (mod (- 71 yas--start-column (string-width yas/text)) 2) (/ (- 71  yas--start-column (string-width yas/text)) 2)) ?-)} */
+$0

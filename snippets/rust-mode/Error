@@ -1,0 +1,19 @@
+# name: Error
+# group: impl
+# --
+impl error::Error for $1 {
+    fn description(&self) -> &str {
+        // Both underlying errors already impl `Error`, so we defer to their
+        // implementations.
+        match *self {
+            $1::Unknown => "Unknown error occured"$0
+        }
+    }
+
+    fn cause(&self) -> Option<&error::Error> {
+        match *self {
+            $1::Error(ref err) => Some(err),
+            _ => None
+        }
+    }
+}

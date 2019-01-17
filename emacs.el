@@ -42,7 +42,11 @@
 (load-file "~/emacs/rc/web.el")
 (load-file "~/emacs/rc/yasnippet.el")
 (load-file "~/emacs/rc/magit.el")
-
+(load-file "~/emacs/rc/c++.el")
+(load-file "~/emacs/rc/coffee.el")
+(load-file "~/emacs/rc/rust.el")
+(load-file "~/emacs/rc/elm.el")
+(load-file "~/emacs/rc/python.el")
 
 ;; Multiple cursors
 (use-package multiple-cursors :ensure t
@@ -52,3 +56,13 @@
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
   )
+(use-package exec-path-from-shell :ensure t
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "PYTHONPATH")
+    (exec-path-from-shell-copy-env "PATH")
+    )
+  )
+
+(use-package yaml-mode :ensure t)

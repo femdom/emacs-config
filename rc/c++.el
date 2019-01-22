@@ -1,4 +1,6 @@
 (require 'cedet)
+(setq semantic-stickyfunc-sticky-classes '(type))
+
 (require 'semantic)
 (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
@@ -6,9 +8,9 @@
 (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
 
-(use-package stickyfunc-enhance :ensure stickyfunc-enhance)
+(load-file "~/emacs/site-packages/stickyfunc-enhance.el")
 (require 'stickyfunc-enhance)
-(setq semantic-stickyfunc-sticky-classes '(type))
+
 (semantic-mode 1)
 
 (use-package irony :ensure irony

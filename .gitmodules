@@ -1,0 +1,3 @@
+[submodule "site-packages/sidebar.el"]
+	path = site-packages/sidebar.el
+	url = git@github.com:sebastiencs/sidebar.el.git

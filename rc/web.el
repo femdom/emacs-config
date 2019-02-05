@@ -23,3 +23,5 @@
              :init
              (add-hook 'css-mode-hook 'rainbow-mode)
              )
+
+(use-package haml-mode :ensure t)

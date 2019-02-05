@@ -6,7 +6,7 @@
   )
 (use-package flycheck-rust :ensure t
   :init
-  flycheck-rust-setup
+  (flycheck-rust-setup)
   )
 (use-package racer :ensure t
   :init

@@ -56,12 +56,14 @@
 (require 'cl) ;; for "reduce"
 (require 'subr-x)
 
-(defvar nose-project-root-files '(".projectile"
+(defvar nose-project-root-files '("requirements.txt"
+                                  ".projectile"
                                   "setup.cfg"
                                   ".hg"
-                                  ".git"))
-(defvar nose-project-root-test 'nose-project-root)
+                                  ".git"
+                                  ))
 (defvar nose-use-verbose t)
+(defvar nose-test-command nil)
 
 (defun run-nose (&optional tests suite debug failed)
   "run nosetests by calling python instead of nosetests script.
@@ -94,7 +96,11 @@ For more details: http://pswinkels.blogspot.ca/2010/04/debugging-python-code-fro
   )
 
 (defun nosetests-nose-command ()
-  "bin/run_unit_tests.sh --no-setup")
+  (interactive)
+  (if (null nose-test-command)
+      "bin/run_unit_tests.sh --no-setup"
+    nose-test-command
+    ))
 
 (defun nosetests-all (&optional debug failed)
   "run all tests"
@@ -131,7 +137,7 @@ For more details: http://pswinkels.blogspot.ca/2010/04/debugging-python-code-fro
 (defun nose-module-path ()
   "get python module path from current file name"
   (interactive)
-  (let ((relative-module-path (string-remove-prefix (projectile-project-root) buffer-file-name)))
+  (let ((relative-module-path (string-remove-prefix (nose-find-project-root) buffer-file-name)))
     (replace-regexp-in-string "/" "." (string-remove-suffix ".py" relative-module-path))
     )
   )
@@ -173,17 +179,19 @@ For more details: http://pswinkels.blogspot.ca/2010/04/debugging-python-code-fro
        (buffer-substring-no-properties (match-beginning 1) (match-end 1))
        result))))
 
-(defun nose-find-project-root (&optional dirname)
-  (let ((dn
-         (if dirname
-             dirname
-           (file-name-directory buffer-file-name))))
-    (cond ((funcall nose-project-root-test dn) (expand-file-name dn))
-          ((equal (expand-file-name dn) "/") nil)
-        (t (nose-find-project-root
-             (file-name-directory (directory-file-name dn)))))))
 
-(defun nose-project-root (dirname)
+(defun nose-find-project-root (&optional dirname)
+  (let ((dirname
+         (expand-file-name
+          (if dirname
+              dirname
+            (file-name-directory buffer-file-name)))))
+    (cond ((has-nose-project-files dirname) dirname)
+          ((equal dirname "/") nil)
+          (t (nose-find-project-root
+              (file-name-directory (directory-file-name dirname)))))))
+
+(defun has-nose-project-files (dirname)
   (reduce '(lambda (x y) (or x y))
           (mapcar (lambda (d) (member d (directory-files dirname)))
                   nose-project-root-files)))

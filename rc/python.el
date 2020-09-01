@@ -1,7 +1,7 @@
-;; (use-package virtualenvwrapper :ensure t
-;;   :init
-;;   (setq venv-location "/Users/renat.galimov/.virtualenvs")
-;;   )
+(use-package virtualenvwrapper :ensure t
+  :init
+  (setq venv-location "~/.virtualenvs")
+  )
 
 (use-package jedi :ensure t)
 (use-package py-isort :ensure py-isort)
@@ -10,8 +10,9 @@
             (hack-local-variables)
             (when (boundp 'project-venv-name)
               (venv-workon project-venv-name))
-
-            (local-set-key "\C-s" 'swiper)
+            (visual-line-mode t)
+            (hs-minor-mode t)
+            (adaptive-wrap-prefix-mode t)
             (local-set-key (kbd "\e\en") 'flycheck-next-error)
             (local-set-key (kbd "C-c C-f") 'py-isort-buffer)
             (local-set-key (kbd "C-c t") 'nosetests-one)
@@ -21,8 +22,8 @@
 
             (jedi:setup)
             (flycheck-mode t)
-            (flycheck-select-checker 'python-pylint)
-            (flycheck-popup-tip-mode t)
+            (flycheck-disable-checker 'python-pycompile)
+            ;; (flycheck-popup-tip-mode t)
             (setq outline-regexp "def\\|class ")
             (local-set-key (kbd "RET") 'newline-and-indent)
             )

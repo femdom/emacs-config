@@ -184,7 +184,7 @@ It looks like:
 
     ;; Dir: current working directory
     (setq dir (with-face (concat (eshell-git-prompt--shorten-directory-name) "/")
-                'eshell-git-prompt-directory-face))
+                         'eshell-git-prompt-directory-face))
 
     ;; Git: branch/detached head, dirty status
     (when (eshell-git-prompt--git-root-dir)
@@ -228,8 +228,8 @@ It looks like:
 (defun wsl-kill-ring-save (start end &optional region)
   (interactive "r")
   (with-suppressed-message
-   (shell-command-on-region start end "clip.exe")
-  (kill-ring-save start end region)))
+    (shell-command-on-region start end "clip.exe")
+    (kill-ring-save start end region)))
 
 (global-set-key
  (kbd "M-w")

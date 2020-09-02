@@ -1,9 +1,11 @@
 (use-package helm
   :ensure t
   :init
-  (setq helm-autoresize-mode t)
-
-
+  (add-to-list 'display-buffer-alist
+               `(,(rx bos "*helm" (* not-newline) "*" eos)
+                 (display-buffer-in-side-window)
+                 (inhibit-same-window . t)
+                 (window-height . 0.4)))
   )
 (use-package helm-projectile :ensure t
   :init

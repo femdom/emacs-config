@@ -1,9 +1,7 @@
 ;; Put autosave files (ie #foo#) in one place, *not*
 ;; scattered all over the file system!
 (defvar autosave-dir "~/tmp/emacs_autosave/")
-
 (make-directory autosave-dir t)
-
 (defun auto-save-file-name-p (filename)
   (string-match "^#.*#$" (file-name-nondirectory filename)))
 

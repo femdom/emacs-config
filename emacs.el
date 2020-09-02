@@ -1,6 +1,7 @@
 (load-theme 'tango-dark)
 
 (require 'tls)
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (push "/usr/local/etc/libressl/cert.pem" gnutls-trustfiles)
 (require 'package)
 
@@ -45,6 +46,7 @@
 (load-file "~/emacs/rc/helm.el")
 (load-file "~/emacs/rc/multiple-cursors.el")
 (load-file "~/emacs/rc/projectile.el")
+(load-file "~/emacs/rc/python.el")
 ;; (load-file "~/emacs/rc/sudo.el")
 ;; (load-file "~/emacs/rc/web.el")
 ;; (load-file "~/emacs/rc/yasnippet.el")
@@ -53,7 +55,7 @@
 ;; (load-file "~/emacs/rc/rust.el")
 ;; (load-file "~/emacs/rc/elm.el")
 ;; (load-file "~/emacs/rc/nose.el")
-;; (load-file "~/emacs/rc/python.el")
+
 ;; (load-file "~/emacs/rc/go.el")
 ;; (load-file "~/emacs/rc/company.el")
 

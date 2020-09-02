@@ -1,5 +1,6 @@
 
 (use-package lsp-mode
+  :ensure t
   :config
   (add-hook 'c++-mode-hook #'lsp)
   (add-hook 'go-mode-hook #'lsp)

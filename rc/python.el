@@ -2,8 +2,12 @@
   :init
   (setq venv-location "~/.virtualenvs")
   )
+(use-package lsp-python-ms :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp))))
 
-(use-package jedi :ensure t)
 (use-package py-isort :ensure py-isort)
 (add-hook 'python-mode-hook
           (lambda()
@@ -16,14 +20,9 @@
             (local-set-key (kbd "\e\en") 'flycheck-next-error)
             (local-set-key (kbd "C-c C-f") 'py-isort-buffer)
             (local-set-key (kbd "C-c t") 'nosetests-one)
-            (setq jedi:complete-on-dot t)
-            (setq jedi:setup-keys t)
-            (setq jedi:tooltip-method nil)
 
-            (jedi:setup)
             (flycheck-mode t)
             (flycheck-disable-checker 'python-pycompile)
-            ;; (flycheck-popup-tip-mode t)
             (setq outline-regexp "def\\|class ")
             (local-set-key (kbd "RET") 'newline-and-indent)
             )

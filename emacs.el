@@ -1,4 +1,5 @@
 (load-theme 'tango-dark)
+(setq lsp-keymap-prefix "C-c C-l")
 
 (require 'tls)
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
@@ -39,6 +40,7 @@
 (setq-default tab-width 4)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+(load-file "~/emacs/rc/docker.el")
 (load-file "~/emacs/rc/autosave.el")
 (load-file "~/emacs/rc/cucumber.el")
 (load-file "~/emacs/rc/misc.el")
@@ -47,6 +49,8 @@
 (load-file "~/emacs/rc/multiple-cursors.el")
 (load-file "~/emacs/rc/projectile.el")
 (load-file "~/emacs/rc/python.el")
+(load-file "~/emacs/rc/lsp.el")
+(load-file "~/emacs/rc/eshell.el")
 ;; (load-file "~/emacs/rc/sudo.el")
 ;; (load-file "~/emacs/rc/web.el")
 ;; (load-file "~/emacs/rc/yasnippet.el")
@@ -55,7 +59,6 @@
 ;; (load-file "~/emacs/rc/rust.el")
 ;; (load-file "~/emacs/rc/elm.el")
 ;; (load-file "~/emacs/rc/nose.el")
-
 ;; (load-file "~/emacs/rc/go.el")
 ;; (load-file "~/emacs/rc/company.el")
 

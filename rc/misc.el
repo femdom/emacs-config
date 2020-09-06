@@ -50,3 +50,6 @@ i.e. change right window to bottom, or change bottom window to right."
                 (shell-command "powershell.exe -command 'Get-Clipboard' 2> /dev/null" wslbuffername nil))))
     (insert-buffer wslbuffername)
     (kill-buffer wslbuffername)))
+
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin")))

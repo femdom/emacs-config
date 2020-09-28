@@ -1,5 +1,4 @@
 (load-theme 'tango-dark)
-(setq lsp-keymap-prefix "C-c C-l")
 
 (require 'tls)
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
@@ -10,8 +9,8 @@
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  ;; (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+   (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
@@ -21,7 +20,8 @@
 (unless (condition-case nil (require 'use-package) (error nil))
   (package-install 'use-package)
   )
-
+(add-to-list 'default-frame-alist
+                       '(font . "DejaVu Sans Mono-14"))
 (setq ring-bell-function 'ignore)
 (server-start)
 (tool-bar-mode 0)
@@ -31,7 +31,6 @@
 (setq scroll-conservatively 50)
 (setq scroll-margin 4)
 (show-paren-mode t)
-
 (set-language-environment 'UTF-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
@@ -40,21 +39,25 @@
 (setq-default tab-width 4)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+(setq lsp-keymap-prefix "C-c C-l")
+(load-file "~/emacs/rc/lsp.el")
 (load-file "~/emacs/rc/docker.el")
 (load-file "~/emacs/rc/autosave.el")
 (load-file "~/emacs/rc/cucumber.el")
 (load-file "~/emacs/rc/misc.el")
+(load-file "~/emacs/rc/kubernetes.el")
 (load-file "~/emacs/rc/magit.el")
 (load-file "~/emacs/rc/helm.el")
 (load-file "~/emacs/rc/multiple-cursors.el")
 (load-file "~/emacs/rc/projectile.el")
 (load-file "~/emacs/rc/python.el")
-(load-file "~/emacs/rc/lsp.el")
 (load-file "~/emacs/rc/eshell.el")
+(load-file "~/emacs/rc/c++.el")
+(load-file "~/emacs/rc/yasnippet.el")
+(load-file "~/emacs/rc/yaml.el")
+(load-file "~/emacs/rc/org.el")
 ;; (load-file "~/emacs/rc/sudo.el")
 ;; (load-file "~/emacs/rc/web.el")
-;; (load-file "~/emacs/rc/yasnippet.el")
-;; (load-file "~/emacs/rc/c++.el")
 ;; (load-file "~/emacs/rc/coffee.el")
 ;; (load-file "~/emacs/rc/rust.el")
 ;; (load-file "~/emacs/rc/elm.el")
@@ -62,14 +65,14 @@
 ;; (load-file "~/emacs/rc/go.el")
 ;; (load-file "~/emacs/rc/company.el")
 
-(use-package exec-path-from-shell :ensure t
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "PYTHONPATH")
-    (exec-path-from-shell-copy-env "PATH")
-    )
-  )
+;; (use-package exec-path-from-shell :ensure t
+;;   :init
+;;   (when (memq window-system '(mac ns x))
+;;     (exec-path-from-shell-initialize)
+;;     (exec-path-from-shell-copy-env "PYTHONPATH")
+;;     (exec-path-from-shell-copy-env "PATH")
+;;     )
+;;   )
 
 (defun risky-local-variable-p (sym &optional _ignored) nil)
 (add-to-list 'safe-local-variable-values
@@ -92,10 +95,14 @@
 (global-set-key (kbd "C-c t") 'window-toggle-split-direction)
 (global-set-key (kbd "C-h C-s") 'hs-toggle-hiding)
 (global-set-key (kbd "C-h s") 'helm-semantic)
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-b") 'helm-mini)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "ESC M-SPC") 'helm-mark-ring)
 (global-set-key (kbd "ESC M-f") 'ffap)
 (global-set-key (kbd "M-w") 'wsl-kill-ring-save)
 (global-set-key (kbd "\e\ems") 'magit-status)
+(global-set-key (kbd "\e\emk") 'kubernetes-overview)
+(global-set-key (kbd "C-c RET") 'yafolding-toggle-element)
+(global-set-key (kbd "C-c C-j") 'yafolding-toggle-all)
+(projectile-mode)

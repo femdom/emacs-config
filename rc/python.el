@@ -8,7 +8,12 @@
                           (require 'lsp-python-ms)
                           (lsp))))
 
-(use-package py-isort :ensure py-isort)
+(use-package py-isort :ensure py-isort
+  :init
+  (setq py-isort-options '("--multi-line=3"))
+  )
+
+
 (add-hook 'python-mode-hook
           (lambda()
             (hack-local-variables)

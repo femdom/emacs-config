@@ -6,7 +6,9 @@
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
-                          (lsp))))
+                          (lsp)
+                          (lsp-headerline-breadcrumb-mode)
+                          )))
 
 (use-package py-isort :ensure py-isort
   :init

@@ -9,11 +9,13 @@
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  ;; (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-   (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+
 (package-initialize)
 (package-refresh-contents)
 
@@ -21,7 +23,7 @@
   (package-install 'use-package)
   )
 (add-to-list 'default-frame-alist
-                       '(font . "DejaVu Sans Mono-14"))
+             '(font . "DejaVu Sans Mono-14"))
 (setq ring-bell-function 'ignore)
 (server-start)
 (tool-bar-mode 0)
@@ -40,6 +42,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (setq lsp-keymap-prefix "C-c C-l")
+(load-file "~/emacs/rc/flycheck.el")
 (load-file "~/emacs/rc/lsp.el")
 (load-file "~/emacs/rc/docker.el")
 (load-file "~/emacs/rc/autosave.el")
@@ -65,14 +68,14 @@
 ;; (load-file "~/emacs/rc/go.el")
 ;; (load-file "~/emacs/rc/company.el")
 
-;; (use-package exec-path-from-shell :ensure t
-;;   :init
-;;   (when (memq window-system '(mac ns x))
-;;     (exec-path-from-shell-initialize)
-;;     (exec-path-from-shell-copy-env "PYTHONPATH")
-;;     (exec-path-from-shell-copy-env "PATH")
-;;     )
-;;   )
+(use-package exec-path-from-shell :ensure t
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "PYTHONPATH")
+    (exec-path-from-shell-copy-env "PATH")
+    )
+  )
 
 (defun risky-local-variable-p (sym &optional _ignored) nil)
 (add-to-list 'safe-local-variable-values

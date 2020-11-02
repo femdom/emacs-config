@@ -1,3 +1,4 @@
+(use-package ob-ipython :ensure t)
 (use-package org
   :ensure t
   :init
@@ -11,10 +12,12 @@
    'org-babel-load-languages
    '((ipython . t)
      (shell . t)
+     (sql . t)
      ;; other languages..
      ))
+  (require 'org-tempo)
 
-  (setq org-default-notes-file "/mnt/c/Users/renat/Dropbox/org/index.org")
+  (setq org-default-notes-file "~/Dropbox/org/index.org")
 
   (defun org-ascii--box-string (s info)
     "Return string S with a partial box to its left.
@@ -37,7 +40,7 @@ INFO is a plist used as a communication channel."
        (and
         (not (string-prefix-p ".#" s))
         (string-suffix-p ".org" s)))
-     (directory-files "/mnt/c/Users/renat/Dropbox/org/")))
+     (directory-files "~/Dropbox/org/")))
 
   (setq org-refile-targets
         '((nil :maxlevel . 1)
@@ -51,7 +54,12 @@ INFO is a plist used as a communication channel."
   :config
   (progn
     (setq org-projectile-projects-file
-          "/mnc/c/Users/renat/Dropbox/org/projects.org")
+          "~/Dropbox/org/projects.org")
     (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
     (push (org-projectile-project-todo-entry) org-capture-templates))
   :ensure t)
+
+(setq org-todo-keyword-faces
+      '(("TODO" . org-todo)
+        ("NEGATIVE" . (:foreground "cadetblue"))
+        ("POSITIVE" . (:foreground "darkseagreen"))))

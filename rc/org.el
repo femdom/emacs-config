@@ -1,6 +1,5 @@
 (use-package ob-async :ensure t)
 
-
 (defvar org-babel-eval-verbose t
   "A non-nil value makes `org-babel-eval' display")
 
@@ -24,15 +23,13 @@ STDERR with `org-babel-eval-error-notify'."
             nil)
         (buffer-string)))))
 
-(use-package unicode-fonts
-  :ensure t
-  :config
-  (unicode-fonts-setup))
+(use-package ob-ipython :ensure t)
 
 (use-package org
   :ensure t
   :init
   (require 'ox-md)
+  (require 'org-tempo)
   (advice-add 'ob-ipython-auto-configure-kernels :around
               (lambda (orig-fun &rest args)
                 "Configure the kernels when found jupyter."
@@ -46,7 +43,7 @@ STDERR with `org-babel-eval-error-notify'."
      ))
 
   (setq org-default-notes-file "/mnt/c/Users/renat/Dropbox/org/index.org")
-
+  (setq org-tags-column -77)
   (defun org-ascii--box-string (s info)
     "Return string S with a partial box to its left.
 INFO is a plist used as a communication channel."

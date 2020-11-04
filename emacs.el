@@ -22,8 +22,13 @@
 (unless (condition-case nil (require 'use-package) (error nil))
   (package-install 'use-package)
   )
+
 (add-to-list 'default-frame-alist
              '(font . "DejaVu Sans Mono-14"))
+(set-fontset-font t 'symbol "Apple Color Emoji")
+(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
+
+
 (setq ring-bell-function 'ignore)
 (server-start)
 (tool-bar-mode 0)
@@ -69,13 +74,13 @@
 ;; (load-file "~/emacs/rc/company.el")
 
 (use-package exec-path-from-shell :ensure t
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "PYTHONPATH")
-    (exec-path-from-shell-copy-env "PATH")
-    )
-  )
+             :init
+             (when (memq window-system '(mac ns x))
+               (exec-path-from-shell-initialize)
+               (exec-path-from-shell-copy-env "PYTHONPATH")
+               (exec-path-from-shell-copy-env "PATH")
+               )
+             )
 
 (defun risky-local-variable-p (sym &optional _ignored) nil)
 (add-to-list 'safe-local-variable-values

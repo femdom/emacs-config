@@ -45,14 +45,13 @@ STDERR with `org-babel-eval-error-notify'."
      ))
   (require 'org-tempo)
 
-    (cond ((eq system-type 'darwin)
-           (setq org-default-notes-file "~/Dropbox/org/index.org")
-           )
-          ((eq system-type 'gnu/linux)
-           (setq org-default-notes-file "/mnt/c/Users/renat/Dropbox/org/index.org")
-           ))
+  (setq my-org-directory
+        (cond ((eq system-type 'darwin) "~/Dropbox/org")
+              ((eq system-type 'gnu/linux) "/mnt/c/Users/renat/Dropbox/org")))
 
+  (setq org-default-notes-file (expand-file-name "index.org" my-org-directory))
   (setq org-tags-column -77)
+  (global-set-key (kbd "ESC M-a") 'org-agenda)
 
   (defun org-ascii--box-string (s info)
     "Return string S with a partial box to its left.
@@ -75,11 +74,15 @@ INFO is a plist used as a communication channel."
        (and
         (not (string-prefix-p ".#" s))
         (string-suffix-p ".org" s)))
-     (directory-files "~/Dropbox/org/")))
+     (directory-files my-org-directory)))
 
   (setq org-refile-targets
         '((nil :maxlevel . 1)
           (my-refile-targets :maxlevel . 1)))
+
+  (setq org-capture-templates
+      '(("t" "Todo" entry (file org-default-notes-file)
+         "* TODO %?\n  %u\n  %i\n  %a")))
   )
 
 (use-package org-projectile
@@ -97,3 +100,11 @@ INFO is a plist used as a communication channel."
       '(("TODO" . org-todo)
         ("NEGATIVE" . (:foreground "cadetblue"))
         ("POSITIVE" . (:foreground "darkseagreen"))))
+
+(use-package org-gcal
+  :ensure t
+  :init
+  (setq org-gcal-client-id "863558406881-122rl0kfk481dcsuqmi2m96le0s3tbhv.apps.googleusercontent.com"
+        org-gcal-client-secret "R09MeI5c65ZlkcW5-J3XohGe"
+        org-gcal-file-alist '(("rgalimov@screenly.io" .  "/mnt/c/Users/renat/Dropbox/org/screenly-calendar.org")))
+  )

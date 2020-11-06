@@ -27,7 +27,7 @@
             (local-set-key (kbd "\e\en") 'flycheck-next-error)
             (local-set-key (kbd "C-c C-f") 'py-isort-buffer)
             (local-set-key (kbd "C-c t") 'nosetests-one)
-
+            (yas-minor-mode)
             (flycheck-mode t)
             (flycheck-disable-checker 'python-pycompile)
             (setq outline-regexp "def\\|class ")

@@ -6,7 +6,6 @@
                  (display-buffer-in-side-window)
                  (inhibit-same-window . t)
                  (window-height . 0.4)))
-  (helm-mode)
   )
 (use-package helm-projectile :ensure t
   :init

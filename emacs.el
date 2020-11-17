@@ -23,11 +23,15 @@
   (package-install 'use-package)
   )
 
+(use-package request :ensure t :pin "melpa")
+(use-package request-deferred :ensure t :pin "melpa")
+
 (add-to-list 'default-frame-alist
              '(font . "DejaVu Sans Mono-14"))
 (set-fontset-font t 'symbol "Apple Color Emoji")
 (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 
+(add-to-list 'load-path "~/emacs/site-packages")
 
 (setq ring-bell-function 'ignore)
 (server-start)

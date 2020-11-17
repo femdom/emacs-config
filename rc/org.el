@@ -1,3 +1,4 @@
+(use-package ein :ensure t)
 (use-package ob-ipython :ensure t)
 (use-package ob-async :ensure t)
 

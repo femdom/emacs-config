@@ -43,7 +43,6 @@ STDERR with `org-babel-eval-error-notify'."
      (sql . t)
      ;; other languages..
      ))
-  (require 'org-tempo)
 
   (setq my-org-directory
         (cond ((eq system-type 'darwin) "~/Dropbox/org")
@@ -51,6 +50,7 @@ STDERR with `org-babel-eval-error-notify'."
 
   (setq org-default-notes-file (expand-file-name "index.org" my-org-directory))
   (setq org-tags-column -77)
+  (setq org-log-into-drawer t)
   (global-set-key (kbd "ESC M-a") 'org-agenda)
 
   (defun org-ascii--box-string (s info)

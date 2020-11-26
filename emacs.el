@@ -1,5 +1,6 @@
 (load-theme 'tango-dark)
 
+(delete-selection-mode t)
 (require 'tls)
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (push "/usr/local/etc/libressl/cert.pem" gnutls-trustfiles)
@@ -23,8 +24,6 @@
   (package-install 'use-package)
   )
 
-(add-to-list 'default-frame-alist
-             '(font . "DejaVu Sans Mono-14"))
 (set-fontset-font t 'symbol "Apple Color Emoji")
 (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 
@@ -64,6 +63,7 @@
 (load-file "~/emacs/rc/yasnippet.el")
 (load-file "~/emacs/rc/yaml.el")
 (load-file "~/emacs/rc/org.el")
+(load-file "~/emacs/rc/ledger.el")
 ;; (load-file "~/emacs/rc/sudo.el")
 ;; (load-file "~/emacs/rc/web.el")
 ;; (load-file "~/emacs/rc/coffee.el")

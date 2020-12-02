@@ -63,8 +63,6 @@ INFO is a plist used as a communication channel."
                "^" (if utf8p "  │ " "  | ")
                ;; Remove last newline character.
                (replace-regexp-in-string "\n[ \t]*\\'" "" s)))))
-  (setq org-refile-targets '((nil :maxlevel . 9)
-                             (org-agenda-files :maxlevel . 9)))
   (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
   (setq org-refile-use-outline-path t)                  ; Show full paths for refili
   (setq org-refile-use-outline-path 'file)
@@ -79,7 +77,7 @@ INFO is a plist used as a communication channel."
 
   (setq org-refile-targets
         '((nil :maxlevel . 1)
-          (my-refile-targets :maxlevel . 1)))
+          (my-refile-targets :maxlevel . 2)))
 
   (setq org-capture-templates
       '(("t" "Todo" entry (file org-default-notes-file)
@@ -109,3 +107,6 @@ INFO is a plist used as a communication channel."
         org-gcal-client-secret "R09MeI5c65ZlkcW5-J3XohGe"
         org-gcal-file-alist '(("rgalimov@screenly.io" .  "/mnt/c/Users/renat/Dropbox/org/screenly-calendar.org")))
   )
+
+
+(require 'phabricator-fetch)

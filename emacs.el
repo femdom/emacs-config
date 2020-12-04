@@ -68,6 +68,7 @@
 (load-file "~/emacs/rc/yaml.el")
 (load-file "~/emacs/rc/org.el")
 (load-file "~/emacs/rc/ledger.el")
+(load-file "~/emacs/rc/doom.el")
 ;; (load-file "~/emacs/rc/sudo.el")
 ;; (load-file "~/emacs/rc/web.el")
 ;; (load-file "~/emacs/rc/coffee.el")
@@ -118,3 +119,6 @@
 (global-set-key (kbd "C-c RET") 'yafolding-toggle-element)
 (global-set-key (kbd "C-c C-j") 'yafolding-toggle-all)
 (projectile-mode)
+
+(setq phabricator-fetch-api-url "https://ph.wireload.net/api")
+(setq phabricator-fetch-user-phid "renat2017")

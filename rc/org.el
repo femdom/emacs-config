@@ -40,6 +40,7 @@ STDERR with `org-babel-eval-error-notify'."
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ipython . t)
+     (plantuml . t)
      (shell . t)
      (sql . t)
      ;; other languages..
@@ -47,8 +48,18 @@ STDERR with `org-babel-eval-error-notify'."
 
   (setq my-org-directory
         (cond ((eq system-type 'darwin) "~/Dropbox/org")
-              ((eq system-type 'gnu/linux) "/mnt/c/Users/renat/Dropbox/org")))
+              ((eq system-type 'gnu/linux) "~/Dropbox/org")))
 
+  (setq plantuml-default-exec-mode 'jar)
+  (setq plantuml-jar-path
+        (cond ((eq system-type 'darwin) "/usr/local/Cellar/plantuml/1.2020.21/libexec/plantuml.jar")
+              ((eq system-type 'gnu/linux) nil)))
+
+  (setq plantuml-java-command
+        (cond ((eq system-type 'darwin) "/usr/local/opt/openjdk/bin/java")
+              ((eq system-type 'gnu/linux) nil)))
+
+  (setq org-plantuml-jar-path plantuml-jar-path)
   (setq org-default-notes-file (expand-file-name "index.org" my-org-directory))
   (setq org-tags-column -77)
   (setq org-log-into-drawer t)
@@ -106,6 +117,7 @@ INFO is a plist used as a communication channel."
   (setq org-gcal-client-id "863558406881-122rl0kfk481dcsuqmi2m96le0s3tbhv.apps.googleusercontent.com"
         org-gcal-client-secret "R09MeI5c65ZlkcW5-J3XohGe"
         org-gcal-file-alist '(("rgalimov@screenly.io" .  "/mnt/c/Users/renat/Dropbox/org/screenly-calendar.org")))
+        org-gcal-file-alist `(("rgalimov@screenly.io" .  ,(expand-file-name "screenly-calendar.org" my-org-directory))))
   )
 
 

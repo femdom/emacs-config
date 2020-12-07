@@ -63,6 +63,7 @@ STDERR with `org-babel-eval-error-notify'."
   (setq org-default-notes-file (expand-file-name "index.org" my-org-directory))
   (setq org-tags-column -77)
   (setq org-log-into-drawer t)
+  (add-hook 'org-mode-hook 'auto-revert-mode)
   (global-set-key (kbd "ESC M-a") 'org-agenda)
 
   (defun org-ascii--box-string (s info)
@@ -90,6 +91,8 @@ INFO is a plist used as a communication channel."
         '((nil :maxlevel . 1)
           (my-refile-targets :maxlevel . 2)))
 
+  (setq org-agenda-files '("~/Dropbox/org"))
+
   (setq org-capture-templates
         '(("t" "Todo" entry (file org-default-notes-file)
            "* TODO %?\n  %u\n  %i\n  %a")))
@@ -100,8 +103,7 @@ INFO is a plist used as a communication channel."
          ("C-c c" . org-capture))
   :config
   (progn
-    (setq org-projectile-projects-file
-          "~/Dropbox/org/projects.org")
+    (setq org-projectile-projects-file "~/Dropbox/org/projects.org")
     (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
     (push (org-projectile-project-todo-entry) org-capture-templates))
   :ensure t)

@@ -67,6 +67,7 @@
 (load-file "~/emacs/rc/yasnippet.el")
 (load-file "~/emacs/rc/yaml.el")
 (load-file "~/emacs/rc/org.el")
+(load-file "~/emacs/site-packages/ob-plantuml.el")
 (load-file "~/emacs/rc/ledger.el")
 (load-file "~/emacs/rc/doom.el")
 ;; (load-file "~/emacs/rc/sudo.el")
@@ -122,3 +123,9 @@
 
 (setq phabricator-fetch-api-url "https://ph.wireload.net/api")
 (setq phabricator-fetch-user-phid "renat2017")
+
+(use-package golden-ratio :ensure t
+  :init
+  (golden-ratio-mode 1)
+  (setq golden-ratio-auto-scale nil)
+  )

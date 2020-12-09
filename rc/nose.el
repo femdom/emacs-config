@@ -148,6 +148,17 @@ For more details: http://pswinkels.blogspot.ca/2010/04/debugging-python-code-fro
   (interactive)
   (run-nose (format "%s:%s" (nose-module-path) (nose-py-testable)) nil debug))
 
+(defun python-test-dwim ()
+  "Run test under the cursor."
+  (interactive)
+  (let* ((project-root (nose-find-project-root))
+         (default-directory project-root)
+         (manage-path (locate-file "manage.py" `(,project-root)))
+         (test-target (nose-module-path))
+         (test-case-target (nose-py-testable)))
+    (when test-case-target
+        (setq test-target (concat test-target "." test-case-target)))
+    (compile (concat manage-path " test " test-target) t)))
 (defun nosetests-pdb-one ()
   (interactive)
   (nosetests-one t))
@@ -164,20 +175,20 @@ For more details: http://pswinkels.blogspot.ca/2010/04/debugging-python-code-fro
 
 (defun inner-testable ()
   (save-excursion
-    (re-search-backward
+    (when (re-search-backward
      "^ \\{0,4\\}\\(class\\|def\\)[ \t]+\\([a-zA-Z0-9_]+\\)" nil t)
-    (buffer-substring-no-properties (match-beginning 2) (match-end 2))))
+      (buffer-substring-no-properties (match-beginning 2) (match-end 2)))))
 
 (defun outer-testable ()
   (save-excursion
-    (re-search-backward
-     "^\\(class\\|def\\)[ \t]+\\([a-zA-Z0-9_]+\\)" nil t)
-    (let ((result
-            (buffer-substring-no-properties (match-beginning 2) (match-end 2))))
+    (when (re-search-backward
+           "^\\(class\\|def\\)[ \t]+\\([a-zA-Z0-9_]+\\)" nil t)
+      (let ((result
+             (buffer-substring-no-properties (match-beginning 2) (match-end 2))))
 
-      (cons
-       (buffer-substring-no-properties (match-beginning 1) (match-end 1))
-       result))))
+        (cons
+         (buffer-substring-no-properties (match-beginning 1) (match-end 1))
+         result)))))
 
 
 (defun nose-find-project-root (&optional dirname)

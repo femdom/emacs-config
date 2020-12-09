@@ -60,6 +60,7 @@
 (load-file "~/emacs/rc/magit.el")
 (load-file "~/emacs/rc/helm.el")
 (load-file "~/emacs/rc/multiple-cursors.el")
+(load-file "~/emacs/rc/nose.el")
 (load-file "~/emacs/rc/projectile.el")
 (load-file "~/emacs/rc/python.el")
 (load-file "~/emacs/rc/eshell.el")
@@ -70,12 +71,13 @@
 (load-file "~/emacs/site-packages/ob-plantuml.el")
 (load-file "~/emacs/rc/ledger.el")
 (load-file "~/emacs/rc/doom.el")
+
 ;; (load-file "~/emacs/rc/sudo.el")
 ;; (load-file "~/emacs/rc/web.el")
 ;; (load-file "~/emacs/rc/coffee.el")
 ;; (load-file "~/emacs/rc/rust.el")
 ;; (load-file "~/emacs/rc/elm.el")
-;; (load-file "~/emacs/rc/nose.el")
+;;
 ;; (load-file "~/emacs/rc/go.el")
 ;; (load-file "~/emacs/rc/company.el")
 

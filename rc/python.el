@@ -1,12 +1,15 @@
+(use-package python-black :ensure t)
+
+
 (use-package virtualenvwrapper :ensure t
   :init
   (setq venv-location "~/.virtualenvs")
   )
+
 (use-package lsp-python-ms :ensure t
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
-                          (lsp)
                           (lsp-headerline-breadcrumb-mode)
                           )))
 
@@ -15,6 +18,7 @@
   (setq py-isort-options '("--multi-line=3"))
   )
 
+(use-package lsp-ivy :ensure t :pin "melpa-stable")
 
 (add-hook 'python-mode-hook
           (lambda()
@@ -32,5 +36,6 @@
             (flycheck-disable-checker 'python-pycompile)
             (setq outline-regexp "def\\|class ")
             (local-set-key (kbd "RET") 'newline-and-indent)
+            (lsp)
             )
           )

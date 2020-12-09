@@ -32,6 +32,8 @@ STDERR with `org-babel-eval-error-notify'."
   :init
   (require 'ox-md)
   (require 'org-tempo)
+  (require 'ox-pandoc)
+
   (advice-add 'ob-ipython-auto-configure-kernels :around
               (lambda (orig-fun &rest args)
                 "Configure the kernels when found jupyter."
@@ -117,7 +119,10 @@ INFO is a plist used as a communication channel."
   :ensure t
   :init
   (setq org-gcal-client-id "863558406881-122rl0kfk481dcsuqmi2m96le0s3tbhv.apps.googleusercontent.com"
-        org-gcal-client-secret "R09MeI5c65ZlkcW5-J3XohGe"
+        org-gcal-client-secret ""
         org-gcal-file-alist `(("rgalimov@screenly.io" .  ,(expand-file-name "screenly-calendar.org" my-org-directory)))))
+
+(use-package org-download
+  :ensure t)
 
 (require 'phabricator-fetch)

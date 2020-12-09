@@ -50,6 +50,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (setq lsp-keymap-prefix "C-c C-l")
+
 (load-file "~/emacs/rc/flycheck.el")
 (load-file "~/emacs/rc/lsp.el")
 (load-file "~/emacs/rc/docker.el")
@@ -69,6 +70,8 @@
 (load-file "~/emacs/rc/org.el")
 (load-file "~/emacs/rc/ledger.el")
 (load-file "~/emacs/rc/doom.el")
+(load-file "~/emacs/rc/elisp.el")
+
 ;; (load-file "~/emacs/rc/sudo.el")
 ;; (load-file "~/emacs/rc/web.el")
 ;; (load-file "~/emacs/rc/coffee.el")

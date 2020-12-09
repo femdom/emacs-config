@@ -1,6 +1,7 @@
 (use-package ein :ensure t)
 (use-package ob-ipython :ensure t)
 (use-package ob-async :ensure t)
+(use-package ob-restclient :ensure t)
 
 (defvar org-babel-eval-verbose t
   "A non-nil value makes `org-babel-eval' display")
@@ -64,6 +65,11 @@ STDERR with `org-babel-eval-error-notify'."
   (setq org-tags-column -77)
   (setq org-log-into-drawer t)
   (add-hook 'org-mode-hook 'auto-revert-mode)
+  (add-hook
+   'org-mode-hook
+   (lambda ()
+     (set (make-local-variable 'golden-ratio-max-width) (+ fill-column 2))))
+
   (global-set-key (kbd "ESC M-a") 'org-agenda)
 
   (defun org-ascii--box-string (s info)

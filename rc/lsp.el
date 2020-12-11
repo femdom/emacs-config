@@ -6,6 +6,8 @@
   (setq lsp-ui-doc-enable nil)
   (add-hook 'go-mode-hook #'lsp)
   (add-hook 'rust-mode-hook #'lsp)
+  :bind
+  ("C-c C-x s" . 'lsp-helm-workspace-symbol)
   )
 
 (setq lsp-headerline-breadcrumb-segments '(project file symbols))

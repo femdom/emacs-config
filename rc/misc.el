@@ -55,4 +55,3 @@ i.e. change right window to bottom, or change bottom window to right."
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
 (use-package keychain-environment :ensure t)
-(use-package counsel :ensure t)

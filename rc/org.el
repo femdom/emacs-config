@@ -3,6 +3,9 @@
 (use-package ob-async :ensure t)
 (use-package ob-restclient :ensure t)
 
+
+(setq my-org-directory "~/Dropbox/org")
+
 (defvar org-babel-eval-verbose t
   "A non-nil value makes `org-babel-eval' display")
 
@@ -49,9 +52,6 @@ STDERR with `org-babel-eval-error-notify'."
      ;; other languages..
      ))
 
-  (setq my-org-directory
-        (cond ((eq system-type 'darwin) "~/Dropbox/org")
-              ((eq system-type 'gnu/linux) "~/Dropbox/org")))
 
   (setq plantuml-default-exec-mode 'jar)
   (setq plantuml-jar-path

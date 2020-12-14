@@ -30,7 +30,7 @@
             (adaptive-wrap-prefix-mode t)
             (local-set-key (kbd "\e\en") 'flycheck-next-error)
             (local-set-key (kbd "C-c C-f") 'py-isort-buffer)
-            (local-set-key (kbd "C-c t") 'nosetests-one)
+            (local-set-key (kbd "C-c t") 'python-test-dwim)
             (yas-minor-mode)
             (flycheck-mode t)
             (flycheck-disable-checker 'python-pycompile)

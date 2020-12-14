@@ -17,19 +17,19 @@
 
 ;;; Installation
 
-;; In your emacs config:
+;; In your Emacs config:
 ;;
 ;; (require 'nose)
 
 ;; This version is compatible with Windows.
-;; It does not call directly the nosetests script. Instead it calls
+;; It does not call directly the nosetests script.  Instead it calls
 ;; python with an inline script to call nose.
 ;; It can launch test suites (require to install the nose fixes via
 ;; `easy_install nose-fixes`).
 ;; It is also compatible with virtualenv.
 
 ;; By default, the root of a project is found by looking for any of the files
-;; '.projectile', 'setup.cfg', '.hg' and '.git'. You can add files to check for
+;; '.projectile',  'setup.cfg', '.hg' and '.git'.  You can add files to check for
 ;; to the file list:
 ;;
 ;;   (add-to-list 'nose-project-root-files "something")
@@ -57,6 +57,7 @@
 (require 'subr-x)
 
 (defvar nose-project-root-files '("requirements.txt"
+                                  "manage.py"
                                   ".projectile"
                                   "setup.cfg"
                                   ".hg"
@@ -148,17 +149,33 @@ For more details: http://pswinkels.blogspot.ca/2010/04/debugging-python-code-fro
   (interactive)
   (run-nose (format "%s:%s" (nose-module-path) (nose-py-testable)) nil debug))
 
+(defun python-test--local-django-prefix()
+  (locate-file "manage.py" ","))
+
+(defvar python-test-case-delimiter ".")
+(defvar python-test-prefix 'python-test--local-django-prefix)
+(defvar python-test-filter "")
+
 (defun python-test-dwim ()
-  "Run test under the cursor."
-  (interactive)
+    "Run test under the cursor."
+    (interactive)
+    (let* ((project-root (nose-find-project-root))
+           (default-directory project-root))
+    (compile (python-test-dwim-cmd) t)))
+
+(defun python-test-dwim-cmd ()
   (let* ((project-root (nose-find-project-root))
          (default-directory project-root)
-         (manage-path (locate-file "manage.py" `(,project-root)))
+         (manage-path
+          (if (functionp python-test-prefix)
+              (funcall python-test-prefix)
+            python-test-prefix))
          (test-target (nose-module-path))
          (test-case-target (nose-py-testable)))
     (when test-case-target
-        (setq test-target (concat test-target "." test-case-target)))
-    (compile (concat manage-path " test " test-target) t)))
+      (setq test-target (concat test-target python-test-case-delimiter test-case-target)))
+    (concat manage-path " " test-target python-test-filter)))
+
 (defun nosetests-pdb-one ()
   (interactive)
   (nosetests-one t))

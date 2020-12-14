@@ -42,6 +42,7 @@
 (setq inhibit-startup-message t)
 (setq scroll-conservatively 50)
 (setq scroll-margin 4)
+(setq compilation-scroll-output 'first-error)
 (show-paren-mode t)
 (set-language-environment 'UTF-8)
 (set-terminal-coding-system 'utf-8)

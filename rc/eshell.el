@@ -48,3 +48,10 @@ It looks like:
 
 
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
+(add-hook 'shell-mode-hook 'with-editor-export-editor)
+(add-hook 'shell-mode-hook (lambda() (local-set-key (kbd "C-r") 'counsel-shell-history)))
+
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*shell*")
+               display-buffer-same-window
+               (reusable-frames . visible)))

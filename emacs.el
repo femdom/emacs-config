@@ -134,5 +134,4 @@
 (use-package golden-ratio :ensure t
   :init
   (golden-ratio-mode 1)
-  (setq golden-ratio-auto-scale nil)
-  )
+  (setq golden-ratio-auto-scale nil))

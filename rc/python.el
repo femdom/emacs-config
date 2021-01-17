@@ -37,5 +37,6 @@
             (setq outline-regexp "def\\|class ")
             (local-set-key (kbd "RET") 'newline-and-indent)
             (lsp)
+            (flycheck-select-checker 'python-flake8)
             )
           )

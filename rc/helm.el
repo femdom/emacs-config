@@ -5,10 +5,9 @@
                `(,(rx bos "*helm" (* not-newline) "*" eos)
                  (display-buffer-in-side-window)
                  (inhibit-same-window . t)
-                 (window-height . 0.4)))
-  )
+                 (window-height . 0.4))))
+
 (use-package helm-projectile :ensure t
   :init
   (helm-projectile-on))
-(use-package helm-flycheck :ensure t
-  )
+(use-package helm-flycheck :ensure t)

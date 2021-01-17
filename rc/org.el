@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Вс янв 17 20:26:14 2021 (+0300)
-;;           By: Renat Galimov
-;;     Update #: 37
+;; Last-Updated: Sun Jan 17 23:10:48 2021 (+0300)
+;;           By: Ренат Галимов
+;;     Update #: 40
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -87,6 +87,16 @@ STDERR with `org-babel-eval-error-notify'."
   (require 'ox-pandoc)
   (require 'org-ph)
 
+  (defun tangle-in-attach (sub-path)
+    "Expand the SUB-PATH into the directory given by the tangle-dir
+property if that property exists, else use the
+`default-directory'."
+    (expand-file-name sub-path
+                      (or
+                       (org-entry-get (point) "dir" 'inherit)
+                       (default-directory))))
+
+
   (advice-add 'ob-ipython-auto-configure-kernels :around
               (lambda (orig-fun &rest args)
                 "Configure the kernels when found jupyter."
@@ -101,7 +111,7 @@ STDERR with `org-babel-eval-error-notify'."
      ;; other languages.
      ))
 
-
+  (setq org-attach-use-inheritance t)
   (setq plantuml-default-exec-mode 'jar)
   (setq plantuml-jar-path
         (cond ((eq system-type 'darwin) "/usr/local/Cellar/plantuml/1.2020.21/libexec/plantuml.jar")
@@ -175,8 +185,15 @@ INFO is a plist used as a communication channel."
     (push (org-projectile-project-todo-entry) org-capture-templates))
   :ensure t)
 
+(setq org-todo-keywords
+      '((sequence
+         "TODO(t)" "|"
+         "DONE(d!)" "CANCELED(c@)" "NEGATIVE(n!)" "POSITIVE(p!)")))
+
 (setq org-todo-keyword-faces
       '(("TODO" . org-todo)
+        ("DONE" . org-done)
+        ("CANDELED" . org-done)
         ("NEGATIVE" . (:foreground "cadetblue"))
         ("POSITIVE" . (:foreground "darkseagreen"))))
 
@@ -184,7 +201,7 @@ INFO is a plist used as a communication channel."
   :ensure t
   :init
   (setq org-gcal-client-id "863558406881-122rl0kfk481dcsuqmi2m96le0s3tbhv.apps.googleusercontent.com"
-        org-gcal-client-secret ""
+        org-gcal-client-secret "MgCtFl0phbkjq_0XUlnVMqPc"
         org-gcal-file-alist `(("rgalimov@screenly.io" .  ,(expand-file-name "screenly-calendar.org" my-org-directory)))))
 
 (use-package org-download

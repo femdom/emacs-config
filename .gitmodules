@@ -1,3 +1,6 @@
 [submodule "site-packages/sidebar.el"]
 	path = site-packages/sidebar.el
 	url = git@github.com:sebastiencs/sidebar.el.git
+[submodule "site-packages/org-phabricator"]
+	path = site-packages/org-phabricator
+	url = git@github.com:renatgalimov/org-phabricator.git

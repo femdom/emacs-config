@@ -1,6 +1,6 @@
 
 (when (display-graphic-p)
-    (load-theme 'tango-dark))
+  (load-theme 'tango-dark))
 
 (delete-selection-mode t)
 (require 'tls)
@@ -33,6 +33,7 @@
 (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 
 (add-to-list 'load-path "~/emacs/site-packages")
+(add-to-list 'load-path "~/emacs/site-packages/org-phabricator")
 
 (setq ring-bell-function 'ignore)
 (server-start)
@@ -87,13 +88,13 @@
 ;; (load-file "~/emacs/rc/company.el")
 
 (use-package exec-path-from-shell :ensure t
-             :init
-             (when (memq window-system '(mac ns x))
-               (exec-path-from-shell-initialize)
-               (exec-path-from-shell-copy-env "PYTHONPATH")
-               (exec-path-from-shell-copy-env "PATH")
-               )
-             )
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "PYTHONPATH")
+    (exec-path-from-shell-copy-env "PATH")
+    )
+  )
 
 (defun risky-local-variable-p (sym &optional _ignored) nil)
 (add-to-list 'safe-local-variable-values
@@ -111,27 +112,34 @@
 (global-set-key (kbd "C-c <right>") 'windmove-right)
 (global-set-key (kbd "C-c <up>")    'windmovppe-up)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-c C-j") 'yafolding-toggle-all)
 (global-set-key (kbd "C-c C-y") 'wsl-paste)
+(global-set-key (kbd "C-c RET") 'yafolding-toggle-element)
 (global-set-key (kbd "C-c s") 'helm-do-ag-project-root)
 (global-set-key (kbd "C-c t") 'window-toggle-split-direction)
 (global-set-key (kbd "C-h C-s") 'hs-toggle-hiding)
 (global-set-key (kbd "C-h s") 'helm-semantic)
 (global-set-key (kbd "C-x C-b") 'helm-mini)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "ESC M-SPC") 'helm-mark-ring)
+(global-set-key (kbd "ESC M-a") 'org-agenda)
 (global-set-key (kbd "ESC M-f") 'ffap)
 (global-set-key (kbd "M-w") 'wsl-kill-ring-save)
-(global-set-key (kbd "\e\ems") 'magit-status)
+(global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "\e\emk") 'kubernetes-overview)
-(global-set-key (kbd "C-c RET") 'yafolding-toggle-element)
-(global-set-key (kbd "C-c C-j") 'yafolding-toggle-all)
+(global-set-key (kbd "\e\ems") 'magit-status)
+(global-set-key (kbd "C-c g c") 'org-clock-goto)
 (projectile-mode)
 
-(setq phabricator-fetch-api-url "https://ph.wireload.net/api")
-(setq phabricator-fetch-user-phid "renat2017")
+(setq org-ph-fetch-api-url "https://ph.wireload.net/api")
+(setq org-ph-fetch-user-phid "renat2017")
 
 (use-package golden-ratio :ensure t
   :init
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale nil))
+(use-package which-key :ensure t
+  :init
+  (which-key-setup-minibuffer)
+  (which-key-mode t)
+  )

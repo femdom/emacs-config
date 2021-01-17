@@ -4,8 +4,8 @@
 (use-package helm-ag :ensure t)
 (use-package projectile :ensure t
   :init
-  (setq projectile-project-search-path '("~/projects/"))
   (projectile-mode)
+  (setq projectile-project-search-path '("~/projects/"))
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (setq projectile-completion-system 'helm)
   )

@@ -7,9 +7,9 @@
 ;; Created: Вт дек 22 17:42:17 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Вт дек 22 17:42:23 2020 (+0300)
+;; Last-Updated: Пт янв  8 10:55:47 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 3
+;;     Update #: 5
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -64,6 +64,7 @@
 (exwm-input-set-key (kbd "s-<down>") 'windmove-down)
 (exwm-input-set-key (kbd "s-<down>") 'windmove-down)
 
+(setq exwm-floating-setup-hook (lambda() (exwm-floating-toggle-floating)))
 
 (setq exwm-input-simulation-keys
 	  '(([?\C-b] . [left])

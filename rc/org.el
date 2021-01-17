@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Пн дек 28 15:15:48 2020 (+0300)
+;; Last-Updated: Вс янв 17 20:26:14 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 30
+;;     Update #: 37
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -85,6 +85,7 @@ STDERR with `org-babel-eval-error-notify'."
   (require 'ox-md)
   (require 'org-tempo)
   (require 'ox-pandoc)
+  (require 'org-ph)
 
   (advice-add 'ob-ipython-auto-configure-kernels :around
               (lambda (orig-fun &rest args)
@@ -115,8 +116,7 @@ STDERR with `org-babel-eval-error-notify'."
   (setq org-tags-column -77)
   (setq org-log-into-drawer t)
   (add-hook 'org-mode-hook 'auto-revert-mode)
-
-  (global-set-key (kbd "ESC M-a") 'org-agenda)
+  (add-hook 'org-mode-hook 'visual-line-mode)
 
   (defun org-ascii--box-string (s info)
     "Return string S with a partial box to its left.
@@ -190,8 +190,6 @@ INFO is a plist used as a communication channel."
 (use-package org-download
   :ensure t)
 
-(require 'phabricator-fetch)
-
 (defun org-gcal-clear-some-duplicates()
   (let ((cleared 0)
         (ids ()))
@@ -248,6 +246,8 @@ INFO is a plist used as a communication channel."
           ;; After the last group, the agenda will display items that didn't
           ;; match any of these groups, with the default order position of 99
           )))
+
+(load-file "~/emacs/site-packages/sbe.el")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org.el ends here

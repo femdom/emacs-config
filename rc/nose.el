@@ -152,11 +152,8 @@ http://pswinkels.blogspot.ca/2010/04/debugging-python-code-from-within-emacs.htm
   (interactive)
   (run-nose (format "%s:%s" (nose-module-path) (nose-py-testable)) nil debug))
 
-(defun python-test--local-django-prefix()
-  (locate-file "manage.py" ","))
-
 (defvar python-test-case-delimiter ".")
-(defvar python-test-prefix 'python-test--local-django-prefix)
+(defvar python-test-prefix "./manage.py test")
 (defvar python-test-filter "")
 
 (defun python-test-dwim ()
@@ -167,9 +164,9 @@ http://pswinkels.blogspot.ca/2010/04/debugging-python-code-from-within-emacs.htm
     (compile (python-test-dwim-cmd) t)))
 
 (defun python-test-dwim-cmd ()
-  (let* ((project-root (nose-find-project-root))
-         (default-directory project-root)
-         (manage-path
+  "Return python test command line."
+  (setq default-directory (nose-find-project-root))
+  (let* ((manage-path
           (if (functionp python-test-prefix)
               (funcall python-test-prefix)
             python-test-prefix))

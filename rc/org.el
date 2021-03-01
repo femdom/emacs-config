@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Сб фев 27 08:22:55 2021 (+0300)
+;; Last-Updated: Пн мар  1 17:21:41 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 43
+;;     Update #: 41
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -93,6 +93,16 @@ STDERR with `org-babel-eval-error-notify'."
   (require 'ox-pandoc)
   (require 'org-ph)
 
+  (defun tangle-in-attach (sub-path)
+    "Expand the SUB-PATH into the directory given by the tangle-dir
+property if that property exists, else use the
+`default-directory'."
+    (expand-file-name sub-path
+                      (or
+                       (org-entry-get (point) "dir" 'inherit)
+                       (default-directory))))
+
+
   (advice-add 'ob-ipython-auto-configure-kernels :around
               (lambda (orig-fun &rest args)
                 "Configure the kernels when found jupyter."
@@ -107,7 +117,7 @@ STDERR with `org-babel-eval-error-notify'."
      ;; other languages.
      ))
 
-
+  (setq org-attach-use-inheritance t)
   (setq plantuml-default-exec-mode 'jar)
   (setq plantuml-jar-path
         (cond ((eq system-type 'darwin) "/usr/local/Cellar/plantuml/1.2020.21/libexec/plantuml.jar")
@@ -181,8 +191,15 @@ INFO is a plist used as a communication channel."
     (push (org-projectile-project-todo-entry) org-capture-templates))
   :ensure t)
 
+(setq org-todo-keywords
+      '((sequence
+         "TODO(t)" "|"
+         "DONE(d!)" "CANCELED(c@)" "NEGATIVE(n!)" "POSITIVE(p!)")))
+
 (setq org-todo-keyword-faces
       '(("TODO" . org-todo)
+        ("DONE" . org-done)
+        ("CANDELED" . org-done)
         ("NEGATIVE" . (:foreground "cadetblue"))
         ("POSITIVE" . (:foreground "darkseagreen"))))
 

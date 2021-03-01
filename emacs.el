@@ -77,6 +77,7 @@
 (load-file "~/emacs/rc/ledger.el")
 (load-file "~/emacs/rc/doom.el")
 (load-file "~/emacs/rc/elisp.el")
+(load-file "~/emacs/rc/mu4e.el")
 
 ;; (load-file "~/emacs/rc/sudo.el")
 ;; (load-file "~/emacs/rc/web.el")
@@ -104,6 +105,11 @@
   (with-current-buffer buffer
     (buffer-string)))
 
+(defun gnome-screenshot-area ()
+  (interactive)
+  (start-process "gnome-screenshot" "*Gnome Screenshot*" "gnome-screenshot" "-a" "-c")
+  )
+(commandp 'gnome-screenshot-area)
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
@@ -129,6 +135,7 @@
 (global-set-key (kbd "\e\emk") 'kubernetes-overview)
 (global-set-key (kbd "\e\ems") 'magit-status)
 (global-set-key (kbd "C-c g c") 'org-clock-goto)
+(global-set-key (kbd "C-<print>") #'gnome-screenshot-area)
 (projectile-mode)
 
 (setq org-ph-fetch-api-url "https://ph.wireload.net/api")

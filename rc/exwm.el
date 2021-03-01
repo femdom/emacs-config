@@ -7,9 +7,9 @@
 ;; Created: Вт дек 22 17:42:17 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Пт янв  8 10:55:47 2021 (+0300)
+;; Last-Updated: Вт фев  2 16:34:34 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 5
+;;     Update #: 8
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -63,6 +63,7 @@
 (exwm-input-set-key (kbd "s-<up>") 'windmove-up)
 (exwm-input-set-key (kbd "s-<down>") 'windmove-down)
 (exwm-input-set-key (kbd "s-<down>") 'windmove-down)
+(exwm-input-set-key (kbd "C-<print>") #'gnome-screenshot-area)
 
 (setq exwm-floating-setup-hook (lambda() (exwm-floating-toggle-floating)))
 

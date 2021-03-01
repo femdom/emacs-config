@@ -1,7 +1,10 @@
 (use-package cmake-mode :ensure t)
 (use-package qml-mode :ensure t)
-;; (use-package clang-format :ensure t)
-(use-package cmake-mode :ensure t)
+(use-package clang-format
+  :ensure t
+  :init
+  (setq clang-format-style 'llvm)
+  )
 
 (add-hook
  'c-mode-hook

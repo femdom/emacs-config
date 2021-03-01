@@ -50,7 +50,7 @@ It looks like:
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
 (add-hook 'shell-mode-hook 'with-editor-export-editor)
 (add-hook 'shell-mode-hook (lambda() (local-set-key (kbd "C-r") 'counsel-shell-history)))
-
+(add-hook 'eshell-preoutput-filter-functions  'ansi-color-apply)
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*shell*")
                display-buffer-same-window

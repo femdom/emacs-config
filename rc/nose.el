@@ -62,14 +62,17 @@
                                   "setup.cfg"
                                   ".hg"
                                   ".git"
-                                  ))
+                                  )
+  "Used to automatically detect nose project root.")
+
 (defvar nose-use-verbose t)
 (defvar nose-test-command nil)
 
 (defun run-nose (&optional tests suite debug failed)
-  "run nosetests by calling python instead of nosetests script.
-To be able to debug on Windows platform python output must be not buffered.
-For more details: http://pswinkels.blogspot.ca/2010/04/debugging-python-code-from-within-emacs.html
+  "Run nosetests by calling python instead of nosetests script.
+To be able to debug on Windows platform python output must be not
+buffered.  For more details:
+http://pswinkels.blogspot.ca/2010/04/debugging-python-code-from-within-emacs.html
 "
   (let* ((nose (nosetests-nose-command))
          (where (nose-find-project-root))

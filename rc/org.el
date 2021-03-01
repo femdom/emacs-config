@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Вс янв 17 20:26:14 2021 (+0300)
+;; Last-Updated: Сб фев 27 08:22:55 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 37
+;;     Update #: 43
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -50,6 +50,12 @@
 (use-package ob-ipython :ensure t)
 (use-package ob-async :ensure t)
 (use-package ob-restclient :ensure t)
+(use-package org-roam :ensure t
+  :init
+  (add-hook 'after-init-hook 'org-roam-mode)
+  (setq org-roam-directory "~/Dropbox/org/roam")
+  )
+
 
 (setq my-org-directory "~/Dropbox/org")
 
@@ -184,7 +190,7 @@ INFO is a plist used as a communication channel."
   :ensure t
   :init
   (setq org-gcal-client-id "863558406881-122rl0kfk481dcsuqmi2m96le0s3tbhv.apps.googleusercontent.com"
-        org-gcal-client-secret ""
+        org-gcal-client-secret "MgCtFl0phbkjq_0XUlnVMqPc"
         org-gcal-file-alist `(("rgalimov@screenly.io" .  ,(expand-file-name "screenly-calendar.org" my-org-directory)))))
 
 (use-package org-download

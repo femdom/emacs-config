@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Сб мар 27 13:14:30 2021 (+0300)
+;; Last-Updated: Сб мар 27 13:24:05 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 59
+;;     Update #: 60
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -208,7 +208,6 @@ INFO is a plist used as a communication channel."
   :ensure t
   :init
   (setq org-gcal-client-id "863558406881-122rl0kfk481dcsuqmi2m96le0s3tbhv.apps.googleusercontent.com"
-        org-gcal-client-secret ""
         org-gcal-file-alist `(("rgalimov@screenly.io" .  ,(expand-file-name "screenly-calendar.org" my-org-directory)))))
 
 (use-package org-download

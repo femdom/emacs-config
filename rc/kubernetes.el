@@ -4,4 +4,8 @@
   :init
   (setq kubernetes-redraw-frequency nil)
   (setq kubernetes-poll-frequency nil)
-  )
+  (setq kubernetes-default-overview-namespace "core")
+  (setq kubernetes-commands-display-buffer-function
+        (lambda (buffer)
+          (display-buffer
+           buffer '(display-buffer-same-window)))))

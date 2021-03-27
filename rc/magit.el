@@ -12,5 +12,4 @@
                                    magit-stash-mode
                                    magit-status-mode)))
                       nil
-                    '(display-buffer-same-window)))))
-  )
+                    '(display-buffer-same-window))))))

@@ -7,9 +7,9 @@
 ;; Created: Вт дек 22 17:42:17 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Вт фев  2 16:34:34 2021 (+0300)
+;; Last-Updated: Ср мар 17 12:25:09 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 8
+;;     Update #: 11
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -51,6 +51,8 @@
 (require 'exwm)
 (require 'exwm-config)
 (exwm-config-example)
+
+
 (exwm-input-set-key (kbd "<XF86MonBrightnessDown>") (lambda () (interactive) (shell-command "light -U 5; light")))
 (exwm-input-set-key (kbd "<XF86MonBrightnessUp>") (lambda () (interactive) (shell-command "light -A 5; light")))
 (exwm-input-set-key (kbd "s-l") (lambda () (interactive) (shell-command "xscreensaver-command -lock")))
@@ -64,6 +66,8 @@
 (exwm-input-set-key (kbd "s-<down>") 'windmove-down)
 (exwm-input-set-key (kbd "s-<down>") 'windmove-down)
 (exwm-input-set-key (kbd "C-<print>") #'gnome-screenshot-area)
+(exwm-input-set-key (kbd "ESC M-a") 'org-agenda)
+
 
 (setq exwm-floating-setup-hook (lambda() (exwm-floating-toggle-floating)))
 

@@ -1,6 +1,8 @@
-
 (when (display-graphic-p)
   (load-theme 'tango-dark))
+
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 (delete-selection-mode t)
 (require 'tls)

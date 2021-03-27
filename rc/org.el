@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Пн мар  1 17:21:41 2021 (+0300)
+;; Last-Updated: Сб мар 27 13:14:30 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 41
+;;     Update #: 59
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -52,7 +52,6 @@
 (use-package ob-restclient :ensure t)
 (use-package org-roam :ensure t
   :init
-  (add-hook 'after-init-hook 'org-roam-mode)
   (setq org-roam-directory "~/Dropbox/org/roam")
   )
 
@@ -117,6 +116,8 @@ property if that property exists, else use the
      ;; other languages.
      ))
 
+  (setq org-clock-auto-clockout-timer (* 10 60))
+  (org-clock-auto-clockout-insinuate)
   (setq org-attach-use-inheritance t)
   (setq plantuml-default-exec-mode 'jar)
   (setq plantuml-jar-path
@@ -169,7 +170,7 @@ INFO is a plist used as a communication channel."
            "  | %? | | |"
            )
           ("c" "Currently clocked-in" item (clock)
-           "Note taken on %U \\\ \n%?")))
+           "Note taken on %U\n%?")))
 
   (defun renat-org-html-format-headline-function
       (todo _todo-type priority text tags info)
@@ -207,7 +208,7 @@ INFO is a plist used as a communication channel."
   :ensure t
   :init
   (setq org-gcal-client-id "863558406881-122rl0kfk481dcsuqmi2m96le0s3tbhv.apps.googleusercontent.com"
-        org-gcal-client-secret "MgCtFl0phbkjq_0XUlnVMqPc"
+        org-gcal-client-secret ""
         org-gcal-file-alist `(("rgalimov@screenly.io" .  ,(expand-file-name "screenly-calendar.org" my-org-directory)))))
 
 (use-package org-download
@@ -242,7 +243,7 @@ INFO is a plist used as a communication channel."
     (while (> cleared 0)
       (setq cleared (org-gcal-clear-some-duplicates)))))
 
-(org-gcal-fetch)
+;; (org-gcal-fetch)
 (org-gcal-clear-duplicates)
 
 (use-package org-super-agenda :ensure t
@@ -252,11 +253,9 @@ INFO is a plist used as a communication channel."
           (:name "Today"  ; Optionally specify section name
                  :time-grid t  ; Items that appear on the time grid
                  )  ; Items that have this TODO keyword
-          (:name "Important"
-                 ;; Single arguments given alone
-                 :tag "bills"
-                 :priority "A")
           ;; Set order of multiple groups at once
+          (:name "Work"
+                 :category "Screenly")
           (:order-multi (2 (:name "Personal"
                                   :habit t
                                   :tag "personal")))
@@ -268,7 +267,8 @@ INFO is a plist used as a communication channel."
                        :order 1)
           ;; After the last group, the agenda will display items that didn't
           ;; match any of these groups, with the default order position of 99
-          )))
+          ))
+  (org-super-agenda-mode))
 
 (load-file "~/emacs/site-packages/sbe.el")
 

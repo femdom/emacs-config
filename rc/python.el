@@ -1,6 +1,5 @@
 (use-package python-black :ensure t)
 
-
 (use-package virtualenvwrapper :ensure t
   :init
   (setq venv-location "~/.virtualenvs")
@@ -20,11 +19,13 @@
 
 (use-package lsp-ivy :ensure t :pin "melpa-stable")
 
-(add-hook 'python-mode-hook
-          (lambda()
+(defun my-python-mode-hook ()
             (hack-local-variables)
             (when (boundp 'project-venv-name)
-              (venv-workon project-venv-name))
+              (venv-workon project-venv-name)
+              (setq flycheck-python-flake8-executable "python"
+                    flycheck-python-pylint-executable "python")
+              (message "Working on %s" project-venv-name))
             (visual-line-mode t)
             (hs-minor-mode t)
             (adaptive-wrap-prefix-mode t)
@@ -37,6 +38,6 @@
             (setq outline-regexp "def\\|class ")
             (local-set-key (kbd "RET") 'newline-and-indent)
             (lsp)
-            (flycheck-select-checker 'python-flake8)
-            )
-          )
+            (flycheck-select-checker 'python-flake8))
+
+(add-hook 'python-mode-hook #'my-python-mode-hook)

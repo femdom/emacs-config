@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Сб мар 27 13:24:05 2021 (+0300)
+;; Last-Updated: Чт апр  1 00:32:28 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 60
+;;     Update #: 69
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -52,7 +52,9 @@
 (use-package ob-restclient :ensure t)
 (use-package org-roam :ensure t
   :init
+  (require 'org-roam-protocol)
   (setq org-roam-directory "~/Dropbox/org/roam")
+  (setq org-roam-completion-system 'helm)
   )
 
 
@@ -91,6 +93,8 @@ STDERR with `org-babel-eval-error-notify'."
   (require 'org-tempo)
   (require 'ox-pandoc)
   (require 'org-ph)
+  (require 'org-crypt)
+  (require 'org-protocol)
 
   (defun tangle-in-attach (sub-path)
     "Expand the SUB-PATH into the directory given by the tangle-dir
@@ -181,7 +185,9 @@ INFO is a plist used as a communication channel."
             (or (plist-get info :html-todo-kwd-class-prefix) "")
             (org-html-fix-class-name todo)
             (org-html-format-headline-default-function todo _todo-type priority text tags info)))
-  (setq org-html-format-headline-function 'renat-org-html-format-headline-function))
+  (setq org-html-format-headline-function 'renat-org-html-format-headline-function)
+
+  (setq org-crypt-key "091AE83A9A988E1B"))
 
 (use-package org-projectile
   :bind (("C-c c" . org-capture))
@@ -270,6 +276,21 @@ INFO is a plist used as a communication channel."
   (org-super-agenda-mode))
 
 (load-file "~/emacs/site-packages/sbe.el")
+
+(use-package org-roam-server
+  :ensure t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org.el ends here

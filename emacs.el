@@ -132,7 +132,6 @@
 (global-set-key (kbd "ESC M-SPC") 'helm-mark-ring)
 (global-set-key (kbd "ESC M-a") 'org-agenda)
 (global-set-key (kbd "ESC M-f") 'ffap)
-(global-set-key (kbd "M-w") 'wsl-kill-ring-save)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "\e\emk") 'kubernetes-overview)
 (global-set-key (kbd "\e\ems") 'magit-status)

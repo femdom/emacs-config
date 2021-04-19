@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Сб мар 27 13:24:05 2021 (+0300)
-;;           By: Renat Galimov
-;;     Update #: 60
+;; Last-Updated: Mon Apr  5 23:49:28 2021 (+0300)
+;;           By: Ренат Галимов
+;;     Update #: 80
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -162,6 +162,17 @@ INFO is a plist used as a communication channel."
 
   (setq org-agenda-files '("~/Dropbox/org"))
 
+  (setq org-roam-capture-templates
+        '(("r" "Roam" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+title: ${title}\n"
+           :unnarrowed t)
+          ("d" "Diary" plain (function org-roam--capture-get-point)
+           "- %U %?"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+title: ${title}\n#+roam_tags diary\n\n#+CAPTION: Diary record %^{Diary record date}u\n\n"
+           :unnarrowed t)))
   (setq org-capture-templates
         '(("t" "Todo" entry (file org-default-notes-file)
            "* TODO %?\n  %u\n  %i\n  %a")

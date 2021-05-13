@@ -1,6 +1,5 @@
 (when (display-graphic-p)
   (load-theme 'tango-dark))
-
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
@@ -81,6 +80,9 @@
 (load-file "~/emacs/rc/elisp.el")
 (load-file "~/emacs/rc/mu4e.el")
 
+(require 'helm)
+
+
 ;; (load-file "~/emacs/rc/sudo.el")
 ;; (load-file "~/emacs/rc/web.el")
 ;; (load-file "~/emacs/rc/coffee.el")
@@ -111,6 +113,12 @@
   (interactive)
   (start-process "gnome-screenshot" "*Gnome Screenshot*" "gnome-screenshot" "-a" "-c")
   )
+
+(defun ido-bookmark-jump (bname)
+  "*Switch to bookmark interactively using `ido'."
+  (interactive (list (ido-completing-read "Bookmark: " (bookmark-all-names) nil t)))
+  (bookmark-jump bname))
+
 (commandp 'gnome-screenshot-area)
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -137,6 +145,8 @@
 (global-set-key (kbd "\e\ems") 'magit-status)
 (global-set-key (kbd "C-c g c") 'org-clock-goto)
 (global-set-key (kbd "C-<print>") #'gnome-screenshot-area)
+(global-set-key (kbd "C-x r l") #'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x r b") #'ido-bookmark-jump)
 (projectile-mode)
 
 (setq org-ph-fetch-api-url "https://ph.wireload.net/api")
@@ -151,3 +161,46 @@
   (which-key-setup-minibuffer)
   (which-key-mode t)
   )
+
+
+
+(require 'ffap)
+(require 'projectile)
+(require 'f)
+;; View a
+
+
+
+(defun r/dev-tests-display (path)
+  "Displays a video file at PATH with a viewer."
+  (interactive)
+  (when (not (projectile-project-root)) (error "Not in a projectile project"))
+  (let ((dev-tests-file (expand-file-name "docker/dev-tests" (projectile-project-root))))
+    (if (not (file-exists-p dev-tests-file))
+        (error "Composition file doesn't exist at %s" dev-tests-file))
+
+    (let ((screencast-file (make-temp-file "screencast" nil ".mp4"))
+          (stderr-file (make-temp-file "screencast-error" nil ".txt")))
+
+      (condition-case ex
+          (let ((exit-code (call-process dev-tests-file nil `((:file ,screencast-file) ,stderr-file) nil "exec" "-T" "tests" "cat" path)))
+            (when (not (= exit-code 0))
+              (error "Cannot download screencast file: %s" (f-read-text stderr-file)))
+            (delete-file stderr-file)
+            (start-process "dev-tests smplayer" nil "smplayer" screencast-file))
+        (error (progn (delete-file screencast-file)
+                      (delete-file stderr-file)
+                      (error ex)))
+        ))))
+
+(call-process "bash" nil  nil "-c" "echo no >&2")
+
+(defun r/view-screencast-at-point ()
+  "Opens a media player with a screencast found at point."
+  (interactive)
+
+  (let ((url (ffap-string-at-point)))
+    (cond ((string-blank-p url) (error "Nothing found at point"))
+          ((not (file-name-absolute-p url)) (error "URL is not absolute path"))
+          ((string-blank-p (projectile-project-root)) (error "Not in a projectile project")))
+    (message "%s" (r/dev-tests-display url))))

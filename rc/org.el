@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Пн апр 19 05:45:01 2021 (+0300)
+;; Last-Updated: Пн мая 10 07:17:25 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 81
+;;     Update #: 110
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -124,6 +124,7 @@ property if that property exists, else use the
   (org-clock-auto-clockout-insinuate)
   (setq org-attach-use-inheritance t)
   (setq plantuml-default-exec-mode 'jar)
+  (setq org-image-actual-width nil)
   (setq plantuml-jar-path
         (cond ((eq system-type 'darwin) "/usr/local/Cellar/plantuml/1.2020.21/libexec/plantuml.jar")
               ((eq system-type 'gnu/linux) "~/.local/bin/plantuml.jar")))
@@ -197,9 +198,9 @@ INFO is a plist used as a communication channel."
             (org-html-fix-class-name todo)
             (org-html-format-headline-default-function todo _todo-type priority text tags info)))
   (setq org-html-format-headline-function 'renat-org-html-format-headline-function)
-
   (setq org-crypt-key "091AE83A9A988E1B"))
 
+(use-package mixed-pitch :ensure t)
 (use-package org-projectile
   :bind (("C-c c" . org-capture))
   :config
@@ -302,6 +303,14 @@ INFO is a plist used as a communication channel."
         org-roam-server-network-label-truncate t
         org-roam-server-network-label-truncate-length 60
         org-roam-server-network-label-wrap-length 20))
+
+(use-package org-web-tools
+  :ensure t
+  )
+
+(use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org.el ends here

@@ -55,3 +55,4 @@ It looks like:
              `(,(rx bos "*shell*")
                display-buffer-same-window
                (reusable-frames . visible)))
+(setq eshell-history-size 10000)

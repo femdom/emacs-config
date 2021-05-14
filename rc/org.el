@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Mon Apr  5 23:49:28 2021 (+0300)
+;; Last-Updated: Thu May 13 07:44:27 2021 (+0300)
 ;;           By: Ренат Галимов
-;;     Update #: 80
+;;     Update #: 111
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -101,7 +101,6 @@ property if that property exists, else use the
                        (org-entry-get (point) "dir" 'inherit)
                        (default-directory))))
 
-
   (advice-add 'ob-ipython-auto-configure-kernels :around
               (lambda (orig-fun &rest args)
                 "Configure the kernels when found jupyter."
@@ -180,9 +179,11 @@ INFO is a plist used as a communication channel."
            (file+headline "~/Dropbox/org/secondbrain.org" "Keybindings")
            "  | %? | | |"
            )
+          ("f" "Curently watched" item (clock)
+           "[[%F::%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))][%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))]]%?")
           ("c" "Currently clocked-in" item (clock)
            "Note taken on %U\n%?")))
-
+  (setq org-link-search-must-match-exact-headline nil)
   (defun renat-org-html-format-headline-function
       (todo _todo-type priority text tags info)
     "Format TODO keywords into HTML."
@@ -282,5 +283,7 @@ INFO is a plist used as a communication channel."
 
 (load-file "~/emacs/site-packages/sbe.el")
 
+(setcar (nthcdr 4 org-emphasis-regexp-components) 10)
+(org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org.el ends here

@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Thu May 13 07:44:27 2021 (+0300)
+;; Last-Updated: Fri May 14 10:49:25 2021 (+0300)
 ;;           By: Ренат Галимов
-;;     Update #: 111
+;;     Update #: 112
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -280,6 +280,8 @@ INFO is a plist used as a communication channel."
           ;; match any of these groups, with the default order position of 99
           ))
   (org-super-agenda-mode))
+
+(require 'org-yt)
 
 (load-file "~/emacs/site-packages/sbe.el")
 

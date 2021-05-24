@@ -7,21 +7,28 @@
 (use-package rust-mode
   :ensure t
   :init
+  (setq lsp-rust-analyzer-cargo-watch-command "clippy"
+        lsp-eldoc-render-all nil
+        lsp-idle-delay 0.6
+        lsp-prefer-flymake nil
+        rust-format-on-save t
+        lsp-rust-analyzer-server-display-inlay-hints t)
+
   (defun my-rust-mode-hook ()
     (lsp t)
     (company-mode t)
     (flycheck-mode t)
     (lsp-ui-mode t)
+    (yas-minor-mode t)
     )
-  (setq lsp-prefer-flymake nil)
-  (setq rust-format-on-save t)
+
   (add-hook 'rust-mode-hook #'my-rust-mode-hook)
-  (setq rust-format-on-save nil)
   )
-;; (use-package flycheck-rust :ensure t
-;;   :init
-;;   (flycheck-rust-setup)
-;;   )
+
+(use-package flycheck-rust :ensure t
+  :init
+  (flycheck-rust-setup)
+  )
 ;; (use-package racer :ensure t
 ;;   :init
 ;;   (add-hook 'rust-mode-hook #'racer-mode)

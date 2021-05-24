@@ -79,6 +79,7 @@
 (load-file "~/emacs/rc/doom.el")
 (load-file "~/emacs/rc/elisp.el")
 (load-file "~/emacs/rc/mu4e.el")
+(load-file "~/emacs/rc/rust.el")
 
 (require 'helm)
 

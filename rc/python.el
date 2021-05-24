@@ -6,12 +6,23 @@
   (setq venv-location "~/.virtualenvs")
   )
 
-(use-package lsp-python-ms :ensure t
-  :init (setq lsp-python-ms-auto-install-server t)
+(use-package lsp-pyright
+  :ensure t
   :hook (python-mode . (lambda ()
-                         (require 'lsp-python-ms)
+                         (require 'lsp-pyright)
+                         (lsp-workspace-folders-remove "/home/renat")
+                         ;; (setq lsp-pyright-use-library-code-for-types 't
+                         ;;       lsp-pyright-typechecking-mode 'basic
+                         ;;       lsp-pyright-disable-organize-imports t)
                          (lsp-headerline-breadcrumb-mode)
-                         )))
+                         (lsp))))
+
+;; (use-package lsp-python-ms :ensure t
+;;   :init (setq lsp-python-ms-auto-install-server t)
+;;   :hook (python-mode . (lambda ()
+;;                          (require 'lsp-python-ms)
+
+;;                          )))
 
 (use-package py-isort :ensure py-isort
   :init

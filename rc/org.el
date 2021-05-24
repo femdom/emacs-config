@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Пт мая 14 05:32:47 2021 (+0300)
+;; Last-Updated: Пн мая 17 08:55:15 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 112
+;;     Update #: 132
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -139,6 +139,11 @@ property if that property exists, else use the
   (add-hook 'org-mode-hook 'auto-revert-mode)
   (add-hook 'org-mode-hook 'visual-line-mode)
 
+  ;; Making org-mode buffers more readable
+  (add-hook 'org-mode-hook 'mixed-pitch-mode)
+  (add-hook 'org-mode-hook 'display-fill-column-indicator-mode)
+  (add-hook 'org-mode-hook (lambda () (setq left-margin-width 3 right-margin-width 2)))
+
   (defun org-ascii--box-string (s info)
     "Return string S with a partial box to its left.
 INFO is a plist used as a communication channel."
@@ -172,6 +177,11 @@ INFO is a plist used as a communication channel."
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
            :head "#+title: ${title}\n"
            :unnarrowed t)
+          ("p" "Project" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+title: ${title}\n#+roam_tags project\n\n* ${title}\n:DEADLINE: %^{Project deadline}t\n\n$?"
+           :unnarrowed t)
           ("d" "Diary" plain (function org-roam--capture-get-point)
            "- %U %?"
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
@@ -185,7 +195,7 @@ INFO is a plist used as a communication channel."
            "  | %? | | |"
            )
           ("f" "Curently watched" item (clock)
-           "[[%F::%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))][%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))]]%?")
+           "%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end)))) [[%F::%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))][↗]]%?")
           ("c" "Currently clocked-in" item (clock)
            "Note taken on %U\n%?")))
   (setq org-link-search-must-match-exact-headline nil)

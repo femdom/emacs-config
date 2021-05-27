@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Пн мая 17 08:55:15 2021 (+0300)
+;; Last-Updated: Пн мая 24 11:41:51 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 132
+;;     Update #: 140
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -202,13 +202,12 @@ INFO is a plist used as a communication channel."
   (defun renat-org-html-format-headline-function
       (todo _todo-type priority text tags info)
     "Format TODO keywords into HTML."
-    (format "<span class>")
     (format "<span class=\"headline %s %s%s\">%s</span>"
             (if (member todo org-done-keywords) "done" "todo")
             (or (plist-get info :html-todo-kwd-class-prefix) "")
             (org-html-fix-class-name todo)
             (org-html-format-headline-default-function todo _todo-type priority text tags info)))
-  (setq org-html-format-headline-function 'renat-org-html-format-headline-function)
+  (setq org-html-format-headline-function 'org-html-format-headline-default-function)
   (setq org-crypt-key "091AE83A9A988E1B"))
 
 (use-package mixed-pitch :ensure t)
@@ -325,5 +324,6 @@ INFO is a plist used as a communication channel."
 
 (setcar (nthcdr 4 org-emphasis-regexp-components) 10)
 (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org.el ends here

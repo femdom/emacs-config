@@ -9,13 +9,14 @@
 (use-package lsp-pyright
   :ensure t
   :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp-workspace-folders-remove "/home/renat")
+                         ;; (require 'lsp-pyright)
+                         ;; (lsp-workspace-folders-remove "/home/renat")
                          ;; (setq lsp-pyright-use-library-code-for-types 't
                          ;;       lsp-pyright-typechecking-mode 'basic
                          ;;       lsp-pyright-disable-organize-imports t)
-                         (lsp-headerline-breadcrumb-mode)
-                         (lsp))))
+                         ;; (lsp)
+                         ;; (lsp-headerline-breadcrumb-mode)
+)))
 
 ;; (use-package lsp-python-ms :ensure t
 ;;   :init (setq lsp-python-ms-auto-install-server t)
@@ -49,7 +50,6 @@
   (flycheck-disable-checker 'python-pycompile)
   (setq outline-regexp "def\\|class ")
   (local-set-key (kbd "RET") 'newline-and-indent)
-  (lsp)
   (flycheck-select-checker 'python-flake8))
 
 (add-hook 'python-mode-hook #'my-python-mode-hook)

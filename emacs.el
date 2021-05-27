@@ -52,6 +52,7 @@
 (prefer-coding-system 'mule-utf-8)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
+(setq sentence-end-double-space nil)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (setq lsp-keymap-prefix "C-c C-l")

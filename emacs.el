@@ -139,6 +139,10 @@
 (global-set-key (kbd "\e\ems") 'magit-status)
 (global-set-key (kbd "C-c g c") 'org-clock-goto)
 (global-set-key (kbd "C-<print>") #'gnome-screenshot-area)
+(global-set-key (kbd "ESC M-h q") #'hlt-question)
+(global-set-key (kbd "ESC M-h s") #'hlt-statement)
+(global-set-key (kbd "ESC M-h u") #'hlt-unhighlight-region)
+(global-set-key (kbd "ESC M-h h") #'hlt-general)
 (projectile-mode)
 
 (setq org-ph-fetch-api-url "https://ph.wireload.net/api")
@@ -152,4 +156,66 @@
   :init
   (which-key-setup-minibuffer)
   (which-key-mode t)
+  )
+(use-package highlight :ensure t
+  :init
+
+  (defface highlight-question
+  '((((class color) (min-colors 88) (background light))
+     :background "darkseagreen2")
+    (((class color) (min-colors 88) (background dark))
+     :background "darkolivegreen")
+    (((class color) (min-colors 16) (background light))
+     :background "darkseagreen2")
+    (((class color) (min-colors 16) (background dark))
+     :background "darkolivegreen")
+    (((class color) (min-colors 8))
+     :background "green" :foreground "black")
+    (t :inverse-video t))
+  "Face for highlighting questions."
+  :group 'basic-faces)
+
+  (defface highlight-statement
+  '((((class color) (min-colors 88) (background light))
+     :background "#3c4c7a")
+    (((class color) (min-colors 88) (background dark))
+     :background "#3c4c7a")
+    (((class color) (min-colors 16) (background light))
+     :background "#3c4c7a")
+    (((class color) (min-colors 16) (background dark))
+     :background "#3c4c7a")
+    (((class color) (min-colors 8))
+     :background "blue" :foreground "black")
+    (t :inverse-video t))
+  "Face for highlighting statements."
+  :group 'basic-faces)
+
+  (defface highlight-general
+    '((((class color) (min-colors 88) (background light))
+       :background "#614b61")
+      (((class color) (min-colors 88) (background dark))
+       :background "#614b61")
+      (((class color) (min-colors 16) (background light))
+       :background "#614b61")
+      (((class color) (min-colors 16) (background dark))
+       :background "#614b61")
+      (((class color) (min-colors 8))
+       :background "red" :foreground "black")
+      (t :inverse-video t))
+    "Face for highlighting statements."
+    :group 'basic-faces)
+
+
+  (defun hlt-question()
+    (interactive)
+    (hlt-highlight-region (region-beginning) (region-end) 'highlight-question)
+    )
+  (defun hlt-statement()
+    (interactive)
+    (hlt-highlight-region (region-beginning) (region-end) 'highlight-statement)
+    )
+  (defun hlt-general()
+    (interactive)
+    (hlt-highlight-region (region-beginning) (region-end) 'highlight-general)
+    )
   )

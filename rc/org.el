@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Чт мая 27 06:53:19 2021 (+0300)
+;; Last-Updated: Пт мая 28 05:41:01 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 141
+;;     Update #: 144
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -190,12 +190,8 @@ INFO is a plist used as a communication channel."
   (setq org-capture-templates
         '(("t" "Todo" entry (file org-default-notes-file)
            "* TODO %?\n  %u\n  %i\n  %a")
-          ("b" "Binding" table-line
-           (file+headline "~/Dropbox/org/secondbrain.org" "Keybindings")
-           "  | %? | | |"
-           )
           ("f" "Curently watched" item (clock)
-           "%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end)))) [[%F::%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))][↗]]%?")
+           "%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end)))) [[%F::%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))][↗]]%?" :unnarrowed t)
           ("c" "Currently clocked-in" item (clock)
            "Note taken on %U\n%?")))
   (setq org-link-search-must-match-exact-headline nil)

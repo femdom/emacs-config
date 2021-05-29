@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Sat May 29 06:56:55 2021 (+0300)
+;; Last-Updated: Sat May 29 07:53:35 2021 (+0300)
 ;;           By: Ренат Галимов
-;;     Update #: 118
+;;     Update #: 137
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -55,6 +55,14 @@
   (setq org-roam-directory "~/Dropbox/org/roam")
   )
 
+(defun r/org-roam--get-project-files ()
+  "Return a list of org files tagged as projects."
+  (mapcan 'identity (org-roam-db-query
+                     [:select [files:file] :from files
+                              :left :join tags
+                              :on (= files:file tags:file)
+                              :where (and (like tags:tags '"%project%") (not (like tags:tags '"%archive%")))
+                              ])))
 
 (setq my-org-directory "~/Dropbox/org")
 
@@ -159,7 +167,7 @@ INFO is a plist used as a communication channel."
         '((nil :maxlevel . 1)
           (my-refile-targets :maxlevel . 2)))
 
-  (setq org-agenda-files '("~/Dropbox/org" "~/Dropbox/org/roam/projects"))
+  (setq org-agenda-files (append '("~/Dropbox/org") (r/org-roam--get-project-files)))
 
   (setq org-roam-capture-templates
         '(("r" "Roam" plain (function org-roam--capture-get-point)

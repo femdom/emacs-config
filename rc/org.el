@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Sat May 29 07:53:35 2021 (+0300)
+;; Last-Updated: Sat May 29 08:33:51 2021 (+0300)
 ;;           By: Ренат Галимов
-;;     Update #: 137
+;;     Update #: 145
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -52,7 +52,9 @@
 (use-package ob-restclient :ensure t)
 (use-package org-roam :ensure t
   :init
+  (require 'org-roam-protocol)
   (setq org-roam-directory "~/Dropbox/org/roam")
+  (setq org-roam-completion-system 'helm)
   )
 
 (defun r/org-roam--get-project-files ()
@@ -99,6 +101,8 @@ STDERR with `org-babel-eval-error-notify'."
   (require 'org-tempo)
   (require 'ox-pandoc)
   (require 'org-ph)
+  (require 'org-crypt)
+  (require 'org-protocol)
 
   (defun tangle-in-attach (sub-path)
     "Expand the SUB-PATH into the directory given by the tangle-dir
@@ -127,6 +131,7 @@ property if that property exists, else use the
   (org-clock-auto-clockout-insinuate)
   (setq org-attach-use-inheritance t)
   (setq plantuml-default-exec-mode 'jar)
+  (setq org-image-actual-width nil)
   (setq plantuml-jar-path
         (cond ((eq system-type 'darwin) "/usr/local/Cellar/plantuml/1.2020.21/libexec/plantuml.jar")
               ((eq system-type 'gnu/linux) "~/.local/bin/plantuml.jar")))
@@ -141,6 +146,11 @@ property if that property exists, else use the
   (setq org-log-into-drawer t)
   (add-hook 'org-mode-hook 'auto-revert-mode)
   (add-hook 'org-mode-hook 'visual-line-mode)
+
+  ;; Making org-mode buffers more readable
+  (add-hook 'org-mode-hook 'mixed-pitch-mode)
+  (add-hook 'org-mode-hook 'display-fill-column-indicator-mode)
+  (add-hook 'org-mode-hook (lambda () (setq left-margin-width 3 right-margin-width 2)))
 
   (defun org-ascii--box-string (s info)
     "Return string S with a partial box to its left.
@@ -175,6 +185,11 @@ INFO is a plist used as a communication channel."
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
            :head "#+title: ${title}\n"
            :unnarrowed t)
+          ("p" "Project" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+title: ${title}\n#+roam_tags project\n\n* ${title}\n:DEADLINE: %^{Project deadline}t\n\n$?"
+           :unnarrowed t)
           ("d" "Diary" plain (function org-roam--capture-get-point)
            "- %U %?"
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
@@ -191,14 +206,15 @@ INFO is a plist used as a communication channel."
   (defun renat-org-html-format-headline-function
       (todo _todo-type priority text tags info)
     "Format TODO keywords into HTML."
-    (format "<span class>")
     (format "<span class=\"headline %s %s%s\">%s</span>"
             (if (member todo org-done-keywords) "done" "todo")
             (or (plist-get info :html-todo-kwd-class-prefix) "")
             (org-html-fix-class-name todo)
             (org-html-format-headline-default-function todo _todo-type priority text tags info)))
-  (setq org-html-format-headline-function 'renat-org-html-format-headline-function))
+  (setq org-html-format-headline-function 'org-html-format-headline-default-function)
+  (setq org-crypt-key "091AE83A9A988E1B"))
 
+(use-package mixed-pitch :ensure t)
 (use-package org-projectile
   :bind (("C-c c" . org-capture))
   :config
@@ -289,7 +305,31 @@ INFO is a plist used as a communication channel."
 
 (load-file "~/emacs/site-packages/sbe.el")
 
+(use-package org-roam-server
+  :ensure t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
+
+(use-package org-web-tools
+  :ensure t
+  )
+
+(use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
 (setcar (nthcdr 4 org-emphasis-regexp-components) 10)
 (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org.el ends here

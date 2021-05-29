@@ -8,4 +8,6 @@
   (setq kubernetes-commands-display-buffer-function
         (lambda (buffer)
           (display-buffer
-           buffer '(display-buffer-same-window)))))
+           buffer '(display-buffer-same-window))))
+  (add-hook 'kubernetes-mode-hook (lambda () (local-set-key "M-w" 'kill-ring-save)))
+  )

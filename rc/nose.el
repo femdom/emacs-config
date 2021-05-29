@@ -161,7 +161,7 @@ http://pswinkels.blogspot.ca/2010/04/debugging-python-code-from-within-emacs.htm
     (interactive)
     (let* ((project-root (nose-find-project-root))
            (default-directory project-root))
-    (compile (python-test-dwim-cmd) t)))
+    (compile (python-test-dwim-cmd) nil)))
 
 (defun python-test-dwim-cmd ()
   "Return python test command line."

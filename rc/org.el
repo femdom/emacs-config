@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Sun May 30 17:40:38 2021 (+0300)
+;; Last-Updated: Sun May 30 18:48:03 2021 (+0300)
 ;;           By: Ренат Галимов
-;;     Update #: 155
+;;     Update #: 160
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -182,21 +182,12 @@ INFO is a plist used as a communication channel."
 
   (setq org-agenda-files '("~/Dropbox/org"))
 
-  (setq org-roam-capture-templates
-        '(("r" "Roam" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "%<%Y%m%d%H%M%S>-${slug}"
-           :head "#+title: ${title}\n"
+o  (setq org-roam-capture-templates
+        '(("r" "Roam" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
-          ("p" "Project" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "%<%Y%m%d%H%M%S>-${slug}"
-           :head "#+title: ${title}\n#+roam_tags project\n\n* ${title}\n:DEADLINE: %^{Project deadline}t\n\n$?"
+          ("p" "Project" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags project\n\n* ${title}\n:DEADLINE: %^{Project deadline}t\n\n$?")
            :unnarrowed t)
-          ("d" "Diary" plain (function org-roam--capture-get-point)
-           "- %U %?"
-           :file-name "%<%Y%m%d%H%M%S>-${slug}"
-           :head "#+title: ${title}\n#+roam_tags diary\n\n#+CAPTION: Diary record %^{Diary record date}u\n\n"
+          ("d" "Diary" plain "- %U %?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags diary\n\n#+CAPTION: Diary record %^{Diary record date}u\n\n")
            :unnarrowed t)))
   (setq org-capture-templates
         '(("t" "Todo" entry (file org-default-notes-file)

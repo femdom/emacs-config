@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Sat May 29 08:33:51 2021 (+0300)
+;; Last-Updated: Sun May 30 17:40:38 2021 (+0300)
 ;;           By: Ренат Галимов
-;;     Update #: 145
+;;     Update #: 155
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -50,12 +50,15 @@
 (use-package ob-ipython :ensure t)
 (use-package ob-async :ensure t)
 (use-package ob-restclient :ensure t)
-(use-package org-roam :ensure t
-  :init
-  (require 'org-roam-protocol)
-  (setq org-roam-directory "~/Dropbox/org/roam")
-  (setq org-roam-completion-system 'helm)
-  )
+
+(add-to-list 'load-path "~/emacs/site-packages/org-roam")
+
+(use-package emacsql-sqlite :ensure t)
+(require 'org-roam)
+(require 'org-roam-protocol)
+(org-roam-setup)
+(setq org-roam-directory "~/Dropbox/org/roam")
+(setq org-roam-completion-system 'helm)
 
 (defun r/org-roam--get-project-files ()
   "Return a list of org files tagged as projects."
@@ -177,7 +180,7 @@ INFO is a plist used as a communication channel."
         '((nil :maxlevel . 1)
           (my-refile-targets :maxlevel . 2)))
 
-  (setq org-agenda-files (append '("~/Dropbox/org") (r/org-roam--get-project-files)))
+  (setq org-agenda-files '("~/Dropbox/org"))
 
   (setq org-roam-capture-templates
         '(("r" "Roam" plain (function org-roam--capture-get-point)
@@ -324,7 +327,7 @@ INFO is a plist used as a communication channel."
   :ensure t
   )
 
-(use-package org-bullets
+(use-package org-bullets :ensure t
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 

@@ -4,3 +4,6 @@
 [submodule "site-packages/org-phabricator"]
 	path = site-packages/org-phabricator
 	url = git@github.com:renatgalimov/org-phabricator.git
+[submodule "site-packages/org-roam"]
+	path = site-packages/org-roam
+	url = https://github.com/org-roam/org-roam.git

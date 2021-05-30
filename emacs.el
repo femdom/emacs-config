@@ -2,7 +2,7 @@
   (load-theme 'tango-dark))
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
-
+(fringe-mode '(1 . 1))
 (delete-selection-mode t)
 (require 'tls)
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
@@ -153,6 +153,9 @@
 (global-set-key (kbd "ESC M-h s") #'hlt-statement)
 (global-set-key (kbd "ESC M-h u") #'hlt-unhighlight-region)
 (global-set-key (kbd "ESC M-h h") #'hlt-general)
+(global-set-key (kbd "C-c n l") #'org-roam-buffer-toggle)
+(global-set-key (kbd "C-c n f") #'org-roam-node-find)
+
 (projectile-mode)
 
 (setq org-ph-fetch-api-url "https://ph.wireload.net/api")
@@ -272,3 +275,4 @@
     (hlt-highlight-region (region-beginning) (region-end) 'highlight-general)
     )
   )
+(setq mixed-pitch-set-height t)

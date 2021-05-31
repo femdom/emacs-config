@@ -53,7 +53,7 @@
 (require 'exwm-randr)
 (exwm-config-example)
 
-(setq exwm-randr-workspace-output-plist '(2 "HDMI-A-0"))
+(setq exwm-randr-workspace-output-plist '(1 "HDMI-A-0" 2 "eDP"))
 (start-process-shell-command "xrandr" nil "xrandr --output eDP --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-A-0 --mode 1280x800 --scale 1x1 --pos 1920x0 --rotate left --left-of eDP")
 
 (exwm-input-set-key (kbd "<XF86MonBrightnessDown>") (lambda () (interactive) (shell-command "light -U 5; light")))

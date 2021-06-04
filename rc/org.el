@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Sun May 30 18:48:03 2021 (+0300)
+;; Last-Updated: Wed Jun  2 10:06:21 2021 (+0300)
 ;;           By: Ренат Галимов
-;;     Update #: 160
+;;     Update #: 162
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -56,8 +56,9 @@
 (use-package emacsql-sqlite :ensure t)
 (require 'org-roam)
 (require 'org-roam-protocol)
-(org-roam-setup)
+
 (setq org-roam-directory "~/Dropbox/org/roam")
+(org-roam-setup)
 (setq org-roam-completion-system 'helm)
 
 (defun r/org-roam--get-project-files ()
@@ -182,13 +183,13 @@ INFO is a plist used as a communication channel."
 
   (setq org-agenda-files '("~/Dropbox/org"))
 
-o  (setq org-roam-capture-templates
-        '(("r" "Roam" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t)
-          ("p" "Project" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags project\n\n* ${title}\n:DEADLINE: %^{Project deadline}t\n\n$?")
-           :unnarrowed t)
-          ("d" "Diary" plain "- %U %?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags diary\n\n#+CAPTION: Diary record %^{Diary record date}u\n\n")
-           :unnarrowed t)))
+  (setq org-roam-capture-templates
+           '(("r" "Roam" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+              :unnarrowed t)
+             ("p" "Project" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags project\n\n* ${title}\n:DEADLINE: %^{Project deadline}t\n\n$?")
+              :unnarrowed t)
+             ("d" "Diary" plain "- %U %?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags diary\n\n#+CAPTION: Diary record %^{Diary record date}u\n\n")
+              :unnarrowed t)))
   (setq org-capture-templates
         '(("t" "Todo" entry (file org-default-notes-file)
            "* TODO %?\n  %u\n  %i\n  %a")
@@ -319,11 +320,11 @@ o  (setq org-roam-capture-templates
   )
 
 (use-package org-bullets :ensure t
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (setcar (nthcdr 4 org-emphasis-regexp-components) 10)
 (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
-
+(setq org-image-actual-width nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org.el ends here

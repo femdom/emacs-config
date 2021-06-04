@@ -7,9 +7,9 @@
 ;; Created: Вт дек 22 17:42:17 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Ср мар 17 12:25:09 2021 (+0300)
+;; Last-Updated: Сб мая 29 20:31:51 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 11
+;;     Update #: 32
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -50,8 +50,11 @@
 (exwm-systemtray-enable)
 (require 'exwm)
 (require 'exwm-config)
+(require 'exwm-randr)
 (exwm-config-example)
 
+(setq exwm-randr-workspace-output-plist '(1 "HDMI-A-0" 2 "eDP"))
+(start-process-shell-command "xrandr" nil "xrandr --output eDP --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-A-0 --mode 1280x800 --scale 1x1 --pos 1920x0 --rotate left --left-of eDP")
 
 (exwm-input-set-key (kbd "<XF86MonBrightnessDown>") (lambda () (interactive) (shell-command "light -U 5; light")))
 (exwm-input-set-key (kbd "<XF86MonBrightnessUp>") (lambda () (interactive) (shell-command "light -A 5; light")))
@@ -96,6 +99,7 @@
                                     helm-exwm-source
                                     helm-source-recentf)))
 (exwm-input--update-global-prefix-keys)
+(exwm-randr-enable)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; exwm.el ends here

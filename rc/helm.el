@@ -11,3 +11,9 @@
   :init
   (helm-projectile-on))
 (use-package helm-flycheck :ensure t)
+
+(defun helm-rg-project-root (&optional query)
+  "Not documented, QUERY."
+  (interactive)
+  (let ((helm-rg-default-directory (or (projectile-project-root) default-directory)))
+    (helm-rg query nil)))

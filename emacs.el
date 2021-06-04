@@ -133,7 +133,7 @@
 (global-set-key (kbd "C-c C-j") 'yafolding-toggle-all)
 (global-set-key (kbd "C-c C-y") 'wsl-paste)
 (global-set-key (kbd "C-c RET") 'yafolding-toggle-element)
-(global-set-key (kbd "C-c s") 'helm-do-ag-project-root)
+(global-set-key (kbd "C-c s") 'helm-rg-project-root)
 (global-set-key (kbd "C-c t") 'window-toggle-split-direction)
 (global-set-key (kbd "C-h C-s") 'hs-toggle-hiding)
 (global-set-key (kbd "C-h s") 'helm-semantic)
@@ -155,6 +155,10 @@
 (global-set-key (kbd "ESC M-h h") #'hlt-general)
 (global-set-key (kbd "C-c n l") #'org-roam-buffer-toggle)
 (global-set-key (kbd "C-c n f") #'org-roam-node-find)
+(global-set-key (kbd "C-c n v") #'org-roam-node-visit)
+(global-set-key (kbd "C-c n i") #'org-roam-node-insert)
+(global-set-key (kbd "C-c n s") #'r/org-rifle-roam-directory)
+
 
 (projectile-mode)
 
@@ -213,38 +217,39 @@
           ((string-blank-p (projectile-project-root)) (error "Not in a projectile project")))
     (message "%s" (r/dev-tests-display url))))
 
+(setq facemenu-menu nil)
+
 (use-package highlight :ensure t
   :init
-
   (defface highlight-question
-  '((((class color) (min-colors 88) (background light))
-     :background "darkseagreen2")
-    (((class color) (min-colors 88) (background dark))
-     :background "darkolivegreen")
-    (((class color) (min-colors 16) (background light))
-     :background "darkseagreen2")
-    (((class color) (min-colors 16) (background dark))
-     :background "darkolivegreen")
-    (((class color) (min-colors 8))
-     :background "green" :foreground "black")
-    (t :inverse-video t))
-  "Face for highlighting questions."
-  :group 'basic-faces)
+    '((((class color) (min-colors 88) (background light))
+       :background "darkseagreen2")
+      (((class color) (min-colors 88) (background dark))
+       :background "darkolivegreen")
+      (((class color) (min-colors 16) (background light))
+       :background "darkseagreen2")
+      (((class color) (min-colors 16) (background dark))
+       :background "darkolivegreen")
+      (((class color) (min-colors 8))
+       :background "green" :foreground "black")
+      (t :inverse-video t))
+    "Face for highlighting questions."
+    :group 'basic-faces)
 
   (defface highlight-statement
-  '((((class color) (min-colors 88) (background light))
-     :background "#3c4c7a")
-    (((class color) (min-colors 88) (background dark))
-     :background "#3c4c7a")
-    (((class color) (min-colors 16) (background light))
-     :background "#3c4c7a")
-    (((class color) (min-colors 16) (background dark))
-     :background "#3c4c7a")
-    (((class color) (min-colors 8))
-     :background "blue" :foreground "black")
-    (t :inverse-video t))
-  "Face for highlighting statements."
-  :group 'basic-faces)
+    '((((class color) (min-colors 88) (background light))
+       :background "#3c4c7a")
+      (((class color) (min-colors 88) (background dark))
+       :background "#3c4c7a")
+      (((class color) (min-colors 16) (background light))
+       :background "#3c4c7a")
+      (((class color) (min-colors 16) (background dark))
+       :background "#3c4c7a")
+      (((class color) (min-colors 8))
+       :background "blue" :foreground "black")
+      (t :inverse-video t))
+    "Face for highlighting statements."
+    :group 'basic-faces)
 
   (defface highlight-general
     '((((class color) (min-colors 88) (background light))
@@ -260,7 +265,6 @@
       (t :inverse-video t))
     "Face for highlighting statements."
     :group 'basic-faces)
-
 
   (defun hlt-question()
     (interactive)

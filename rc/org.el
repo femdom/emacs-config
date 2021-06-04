@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Wed Jun  2 10:06:21 2021 (+0300)
+;; Last-Updated: Fri Jun  4 06:04:03 2021 (+0300)
 ;;           By: Ренат Галимов
-;;     Update #: 162
+;;     Update #: 174
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -45,6 +45,7 @@
 ;;
 ;;; Code:
 
+(require 'use-package)
 
 (use-package ein :ensure t)
 (use-package ob-ipython :ensure t)
@@ -56,10 +57,9 @@
 (use-package emacsql-sqlite :ensure t)
 (require 'org-roam)
 (require 'org-roam-protocol)
-
-(setq org-roam-directory "~/Dropbox/org/roam")
+(setq r/org-directory "~/Dropbox/org")
+(setq org-roam-directory r/org-directory)
 (org-roam-setup)
-(setq org-roam-completion-system 'helm)
 
 (defun r/org-roam--get-project-files ()
   "Return a list of org files tagged as projects."
@@ -70,7 +70,7 @@
                               :where (and (like tags:tags '"%project%") (not (like tags:tags '"%archive%")))
                               ])))
 
-(setq my-org-directory "~/Dropbox/org")
+
 
 (defvar org-babel-eval-verbose t
   "A non-nil value makes `org-babel-eval' display.")
@@ -131,6 +131,8 @@ property if that property exists, else use the
      ;; other languages.
      ))
 
+  (setq org-id-extra-files (org-roam--list-all-files))
+
   (setq org-clock-auto-clockout-timer (* 10 60))
   (org-clock-auto-clockout-insinuate)
   (setq org-attach-use-inheritance t)
@@ -145,7 +147,7 @@ property if that property exists, else use the
               ((eq system-type 'gnu/linux) "java")))
 
   (setq org-plantuml-jar-path plantuml-jar-path)
-  (setq org-default-notes-file (expand-file-name "index.org" my-org-directory))
+  (setq org-default-notes-file (expand-file-name "index.org" r/org-directory))
   (setq org-tags-column -77)
   (setq org-log-into-drawer t)
   (add-hook 'org-mode-hook 'auto-revert-mode)
@@ -175,21 +177,22 @@ INFO is a plist used as a communication channel."
        (and
         (not (string-prefix-p ".#" s))
         (string-suffix-p ".org" s)))
-     (directory-files my-org-directory)))
+     (directory-files r/org-directory)))
 
   (setq org-refile-targets
         '((nil :maxlevel . 1)
           (my-refile-targets :maxlevel . 2)))
 
-  (setq org-agenda-files '("~/Dropbox/org"))
-
+  (setq org-agenda-files '("~/Dropbox/org")
+        org-startup-folded 'content)
   (setq org-roam-capture-templates
-           '(("r" "Roam" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-              :unnarrowed t)
-             ("p" "Project" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags project\n\n* ${title}\n:DEADLINE: %^{Project deadline}t\n\n$?")
-              :unnarrowed t)
-             ("d" "Diary" plain "- %U %?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags diary\n\n#+CAPTION: Diary record %^{Diary record date}u\n\n")
-              :unnarrowed t)))
+        '(("r" "Roam" plain "%?" :if-new (file+head "roam/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("p" "Project" plain "%?" :if-new (file+head "roam/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags project\n\n* ${title}\n:DEADLINE: %^{Project deadline}t\n\n$?")
+           :unnarrowed t)
+          ("d" "Diary" plain "- %U %?" :if-new (file+head "roam/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+roam_tags diary\n\n#+CAPTION: Diary record %^{Diary record date}u\n\n")
+           :unnarrowed t)))
+
   (setq org-capture-templates
         '(("t" "Todo" entry (file org-default-notes-file)
            "* TODO %?\n  %u\n  %i\n  %a")
@@ -208,6 +211,10 @@ INFO is a plist used as a communication channel."
             (org-html-format-headline-default-function todo _todo-type priority text tags info)))
   (setq org-html-format-headline-function 'org-html-format-headline-default-function)
   (setq org-crypt-key "091AE83A9A988E1B"))
+
+(defun r/org-rifle-roam-directory ()
+  (interactive)
+  (helm-org-rifle-directories org-roam-directory))
 
 (use-package mixed-pitch :ensure t)
 (use-package org-projectile
@@ -235,7 +242,7 @@ INFO is a plist used as a communication channel."
   :ensure t
   :init
   (setq org-gcal-client-id "863558406881-122rl0kfk481dcsuqmi2m96le0s3tbhv.apps.googleusercontent.com"
-        org-gcal-file-alist `(("rgalimov@screenly.io" .  ,(expand-file-name "screenly-calendar.org" my-org-directory)))))
+        org-gcal-file-alist `(("rgalimov@screenly.io" .  ,(expand-file-name "screenly-calendar.org" r/org-directory)))))
 
 (use-package org-download
   :ensure t)
@@ -299,21 +306,6 @@ INFO is a plist used as a communication channel."
 (require 'org-yt)
 
 (load-file "~/emacs/site-packages/sbe.el")
-
-(use-package org-roam-server
-  :ensure t
-  :config
-  (setq org-roam-server-host "127.0.0.1"
-        org-roam-server-port 8080
-        org-roam-server-authenticate nil
-        org-roam-server-export-inline-images t
-        org-roam-server-serve-files nil
-        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
-        org-roam-server-network-poll t
-        org-roam-server-network-arrows nil
-        org-roam-server-network-label-truncate t
-        org-roam-server-network-label-truncate-length 60
-        org-roam-server-network-label-wrap-length 20))
 
 (use-package org-web-tools
   :ensure t

@@ -1,5 +1,6 @@
 (when (display-graphic-p)
   (load-theme 'tango-dark))
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 (fringe-mode '(1 . 1))

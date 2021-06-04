@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Fri Jun  4 06:04:03 2021 (+0300)
-;;           By: Ренат Галимов
-;;     Update #: 174
+;; Last-Updated: Пт июн  4 06:05:43 2021 (+0300)
+;;           By: Renat Galimov
+;;     Update #: 185
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -183,7 +183,8 @@ INFO is a plist used as a communication channel."
         '((nil :maxlevel . 1)
           (my-refile-targets :maxlevel . 2)))
 
-  (setq org-agenda-files '("~/Dropbox/org")
+  (setq org-agenda-files '(r/org-directory)
+        org-directory r/org-directory
         org-startup-folded 'content)
   (setq org-roam-capture-templates
         '(("r" "Roam" plain "%?" :if-new (file+head "roam/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
@@ -196,6 +197,13 @@ INFO is a plist used as a communication channel."
   (setq org-capture-templates
         '(("t" "Todo" entry (file org-default-notes-file)
            "* TODO %?\n  %u\n  %i\n  %a")
+          ("m" "Message Response" entry (file+headline "index.org" "Message responses")
+           "** %?
+    :PROPERTIES:
+    :URL: %(org-web-tools--get-first-url)
+    :END:
+
+    %T" :jump-to-captured)
           ("f" "Curently watched" item (clock)
            "%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end)))) [[%F::%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))][↗]]%?" :unnarrowed t)
           ("c" "Currently clocked-in" item (clock)

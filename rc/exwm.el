@@ -7,9 +7,9 @@
 ;; Created: Вт дек 22 17:42:17 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Сб мая 29 20:31:51 2021 (+0300)
+;; Last-Updated: Пт июн  4 06:10:01 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 32
+;;     Update #: 59
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -52,9 +52,9 @@
 (require 'exwm-config)
 (require 'exwm-randr)
 (exwm-config-example)
-
+(set-face-attribute 'default nil :height 120)
 (setq exwm-randr-workspace-output-plist '(1 "HDMI-A-0" 2 "eDP"))
-(start-process-shell-command "xrandr" nil "xrandr --output eDP --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-A-0 --mode 1280x800 --scale 1x1 --pos 1920x0 --rotate left --left-of eDP")
+;; (start-process-shell-command "xrandr" nil "xrandr --dpi 192 --output eDP --scale 2x2 --primary --mode 1920x1080 --output HDMI-A-0 --above eDP --scale 0.8x0.8 --mode 3840x2160")
 
 (exwm-input-set-key (kbd "<XF86MonBrightnessDown>") (lambda () (interactive) (shell-command "light -U 5; light")))
 (exwm-input-set-key (kbd "<XF86MonBrightnessUp>") (lambda () (interactive) (shell-command "light -A 5; light")))

@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Пт июн  4 06:05:43 2021 (+0300)
+;; Last-Updated: Пт июн  4 07:16:41 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 185
+;;     Update #: 193
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -183,7 +183,7 @@ INFO is a plist used as a communication channel."
         '((nil :maxlevel . 1)
           (my-refile-targets :maxlevel . 2)))
 
-  (setq org-agenda-files '(r/org-directory)
+  (setq org-agenda-files `(,r/org-directory)
         org-directory r/org-directory
         org-startup-folded 'content)
   (setq org-roam-capture-templates
@@ -326,5 +326,24 @@ INFO is a plist used as a communication channel."
 (setcar (nthcdr 4 org-emphasis-regexp-components) 10)
 (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 (setq org-image-actual-width nil)
+
+
+;; Search
+
+(setq helm-deft-extension '("org"))
+(setq helm-deft-dir-list '("~/Dropbox/org/roam"))
+
+;; Org QL
+(use-package org-ql :ensure t
+  :init
+  (setq org-ql-search-directories-files-recursive t)
+  )
+
+(use-package helm-recoll
+    :commands helm-recoll
+    :init (setq helm-recoll-directories
+                '(("default" . "~/.recoll"))))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org.el ends here

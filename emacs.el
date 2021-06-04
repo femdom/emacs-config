@@ -183,7 +183,6 @@
 ;; View a
 
 
-
 (defun r/dev-tests-display (path)
   "Displays a video file at PATH with a viewer."
   (interactive)

@@ -58,6 +58,8 @@
 
 (setq lsp-keymap-prefix "C-c C-l")
 
+
+(load-file "~/emacs/rc/shell.el")
 (load-file "~/emacs/rc/flycheck.el")
 (load-file "~/emacs/rc/lsp.el")
 (load-file "~/emacs/rc/docker.el")
@@ -82,6 +84,7 @@
 (load-file "~/emacs/rc/elisp.el")
 (load-file "~/emacs/rc/mu4e.el")
 (load-file "~/emacs/rc/rust.el")
+(load-file "~/emacs/rc/CODE.el")
 
 (require 'helm)
 
@@ -150,10 +153,6 @@
 (global-set-key (kbd "C-<print>") #'gnome-screenshot-area)
 (global-set-key (kbd "C-x r l") #'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x r b") #'ido-bookmark-jump)
-(global-set-key (kbd "ESC M-h q") #'hlt-question)
-(global-set-key (kbd "ESC M-h s") #'hlt-statement)
-(global-set-key (kbd "ESC M-h u") #'hlt-unhighlight-region)
-(global-set-key (kbd "ESC M-h h") #'hlt-general)
 (global-set-key (kbd "C-c n l") #'org-roam-buffer-toggle)
 (global-set-key (kbd "C-c n f") #'org-roam-node-find)
 (global-set-key (kbd "C-c n v") #'org-roam-node-visit)
@@ -216,67 +215,4 @@
           ((not (file-name-absolute-p url)) (error "URL is not absolute path"))
           ((string-blank-p (projectile-project-root)) (error "Not in a projectile project")))
     (message "%s" (r/dev-tests-display url))))
-
-(setq facemenu-menu nil)
-
-(use-package highlight :ensure t
-  :init
-  (defface highlight-question
-    '((((class color) (min-colors 88) (background light))
-       :background "darkseagreen2")
-      (((class color) (min-colors 88) (background dark))
-       :background "darkolivegreen")
-      (((class color) (min-colors 16) (background light))
-       :background "darkseagreen2")
-      (((class color) (min-colors 16) (background dark))
-       :background "darkolivegreen")
-      (((class color) (min-colors 8))
-       :background "green" :foreground "black")
-      (t :inverse-video t))
-    "Face for highlighting questions."
-    :group 'basic-faces)
-
-  (defface highlight-statement
-    '((((class color) (min-colors 88) (background light))
-       :background "#3c4c7a")
-      (((class color) (min-colors 88) (background dark))
-       :background "#3c4c7a")
-      (((class color) (min-colors 16) (background light))
-       :background "#3c4c7a")
-      (((class color) (min-colors 16) (background dark))
-       :background "#3c4c7a")
-      (((class color) (min-colors 8))
-       :background "blue" :foreground "black")
-      (t :inverse-video t))
-    "Face for highlighting statements."
-    :group 'basic-faces)
-
-  (defface highlight-general
-    '((((class color) (min-colors 88) (background light))
-       :background "#614b61")
-      (((class color) (min-colors 88) (background dark))
-       :background "#614b61")
-      (((class color) (min-colors 16) (background light))
-       :background "#614b61")
-      (((class color) (min-colors 16) (background dark))
-       :background "#614b61")
-      (((class color) (min-colors 8))
-       :background "red" :foreground "black")
-      (t :inverse-video t))
-    "Face for highlighting statements."
-    :group 'basic-faces)
-
-  (defun hlt-question()
-    (interactive)
-    (hlt-highlight-region (region-beginning) (region-end) 'highlight-question)
-    )
-  (defun hlt-statement()
-    (interactive)
-    (hlt-highlight-region (region-beginning) (region-end) 'highlight-statement)
-    )
-  (defun hlt-general()
-    (interactive)
-    (hlt-highlight-region (region-beginning) (region-end) 'highlight-general)
-    )
-  )
 (setq mixed-pitch-set-height t)

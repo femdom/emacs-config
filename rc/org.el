@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Пт июн  4 07:16:41 2021 (+0300)
+;; Last-Updated: Вс июн 13 07:11:49 2021 (+0300)
 ;;           By: Renat Galimov
-;;     Update #: 193
+;;     Update #: 200
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -56,6 +56,36 @@
 
 (use-package emacsql-sqlite :ensure t)
 (require 'org-roam)
+
+
+(defun org-roam-node-read (&optional initial-input filter-fn sort-fn require-match)
+  "Read and return an `org-roam-node'.
+INITIAL-INPUT is the initial prompt value.
+FILTER-FN is a function to filter out nodes.
+SORT-FN is a function to sort nodes.
+If REQUIRE-MATCH, require returning a match."
+  (let* ((nodes (org-roam-node--completions))
+         (nodes (funcall (or filter-fn #'identity) nodes))
+         (sort-fn (or sort-fn
+                      (when org-roam-node-default-sort
+                        (intern (concat "org-roam-node-sort-by-" (symbol-name org-roam-node-default-sort))))))
+         (_ (when sort-fn (setq nodes (seq-sort sort-fn nodes))))
+         (node (helm-comp-read
+                "Node: "
+                (lambda (string pred action)
+                  (if (eq action 'metadata)
+                      '(metadata
+                        (annotation-function . (lambda (title)
+                                                 (funcall org-roam-node-annotation-function
+                                                          (get-text-property 0 'node title))))
+                        (category . org-roam-node))
+                    (complete-with-action action nodes string pred)))
+                :test require-match :initial-input initial-input :buffer "*Helm Roam Node Read*")))
+    (or (cdr (assoc node nodes))
+        (org-roam-node-create :title node))))
+
+
+
 (require 'org-roam-protocol)
 (setq r/org-directory "~/Dropbox/org")
 (setq org-roam-directory r/org-directory)
@@ -108,6 +138,8 @@ STDERR with `org-babel-eval-error-notify'."
   (require 'org-crypt)
   (require 'org-protocol)
 
+  (add-to-list 'org-modules 'org-id)
+
   (defun tangle-in-attach (sub-path)
     "Expand the SUB-PATH into the directory given by the tangle-dir
 property if that property exists, else use the
@@ -149,7 +181,8 @@ property if that property exists, else use the
   (setq org-plantuml-jar-path plantuml-jar-path)
   (setq org-default-notes-file (expand-file-name "index.org" r/org-directory))
   (setq org-tags-column -77)
-  (setq org-log-into-drawer t)
+  (setq org-log-into-drawer t
+        org-id-link-to-org-use-id 'use-existing)
   (add-hook 'org-mode-hook 'auto-revert-mode)
   (add-hook 'org-mode-hook 'visual-line-mode)
 
@@ -204,8 +237,6 @@ INFO is a plist used as a communication channel."
     :END:
 
     %T" :jump-to-captured)
-          ("f" "Curently watched" item (clock)
-           "%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end)))) [[%F::%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))][↗]]%?" :unnarrowed t)
           ("c" "Currently clocked-in" item (clock)
            "Note taken on %U\n%?")))
   (setq org-link-search-must-match-exact-headline nil)

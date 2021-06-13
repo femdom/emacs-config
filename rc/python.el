@@ -8,8 +8,9 @@
 
 (use-package lsp-pyright
   :ensure t
+  :pin "melpa"
   :hook (python-mode . (lambda ()
-                         ;; (require 'lsp-pyright)
+                         (require 'lsp-pyright)
                          ;; (lsp-workspace-folders-remove "/home/renat")
                          ;; (setq lsp-pyright-use-library-code-for-types 't
                          ;;       lsp-pyright-typechecking-mode 'basic

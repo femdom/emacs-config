@@ -11,12 +11,12 @@
   :pin "melpa"
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
-                         ;; (lsp-workspace-folders-remove "/home/renat")
+                         (lsp-workspace-folders-remove "/home/renat")
                          ;; (setq lsp-pyright-use-library-code-for-types 't
-                         ;;       lsp-pyright-typechecking-mode 'basic
+                         ;;       lsp-pyright-typechecking-mode 'strict
                          ;;       lsp-pyright-disable-organize-imports t)
-                         ;; (lsp)
-                         ;; (lsp-headerline-breadcrumb-mode)
+                         (lsp)
+                         (lsp-headerline-breadcrumb-mode)
 )))
 
 ;; (use-package lsp-python-ms :ensure t

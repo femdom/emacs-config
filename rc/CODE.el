@@ -6,9 +6,9 @@
  '("f" "Curently watched" item (clock)
    "%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end)))) [[%F::%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))][↗]]%?" :unnarrowed t))
 
-;; If you get errors saying somethign about facemenu, try
-;; uncommenting this.
-;; (setq facemenu-menu nil)
+;; I'm getting errors saying somethign about facemenu.
+;; This line fixes them.
+(setq facemenu-menu nil)
 
 ;; Intalls the package
 (use-package highlight :ensure t)

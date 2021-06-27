@@ -7,9 +7,9 @@
 ;; Created: Чт дек 17 10:04:54 2020 (+0300)
 ;; Version:
 ;; Package-Requires: ()
-;; Last-Updated: Вс июн 13 07:11:49 2021 (+0300)
-;;           By: Renat Galimov
-;;     Update #: 200
+;; Last-Updated: Sun Jun 27 06:51:38 2021 (+0300)
+;;           By: Ренат Галимов
+;;     Update #: 209
 ;; URL:
 ;; Doc URL:
 ;; Keywords:
@@ -251,9 +251,6 @@ INFO is a plist used as a communication channel."
   (setq org-html-format-headline-function 'org-html-format-headline-default-function)
   (setq org-crypt-key "091AE83A9A988E1B"))
 
-(defun r/org-rifle-roam-directory ()
-  (interactive)
-  (helm-org-rifle-directories org-roam-directory))
 
 (use-package mixed-pitch :ensure t)
 (use-package org-projectile
@@ -354,8 +351,6 @@ INFO is a plist used as a communication channel."
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-(setcar (nthcdr 4 org-emphasis-regexp-components) 10)
-(org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 (setq org-image-actual-width nil)
 
 
@@ -375,6 +370,34 @@ INFO is a plist used as a communication channel."
     :init (setq helm-recoll-directories
                 '(("default" . "~/.recoll"))))
 
+
+(defun org-inline-data-image (_protocol link _description)
+  "Interpret LINK as base64-encoded image data."
+  (base64-decode-string link))
+
+(org-link-set-parameters
+ "img"
+ :image-data-fun #'org-inline-data-image)
+
+(defun org-image-link (protocol link _description)
+  "Interpret LINK as base64-encoded image data."
+  (cl-assert (string-match "\\`img" protocol) nil
+             "Expected protocol type starting with img")
+  (let ((buf (url-retrieve-synchronously (concat (substring protocol 3) ":" link))))
+    (cl-assert buf nil
+               "Download of image \"%s\" failed." link)
+    (with-current-buffer buf
+      (goto-char (point-min))
+      (re-search-forward "\r?\n\r?\n")
+      (buffer-substring-no-properties (point) (point-max)))))
+
+(org-link-set-parameters
+ "imghttp"
+ :image-data-fun #'org-image-link)
+
+(org-link-set-parameters
+ "imghttps"
+ :image-data-fun #'org-image-link)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org.el ends here

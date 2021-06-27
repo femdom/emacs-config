@@ -1,90 +1,72 @@
-;; Use =org-capture f= to put a link to the text you selected.into an
-;; org entry with the current timer enabled.
+;; [[file:../../projects/org-basb-code/README.org::*Emacs config][Emacs config:1]]
+;; [[[[file:~/projects/org-basb-code/README.org::install-straight-el][install-straight-el]]][install-straight-el]]
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+;; install-straight-el ends here
+;; [[[[file:~/projects/org-basb-code/README.org::install-org-pandoc-import][install-org-pandoc-import]]][install-org-pandoc-import]]
+(use-package org-pandoc-import
+  :straight (:host github
+                   :repo "tecosaur/org-pandoc-import"
+                   :files ("*.el" "filters" "preprocessors"))
 
-(add-to-list
- 'org-capture-templates
- '("f" "Curently watched" item (clock)
-   "%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end)))) [[%F::%(with-current-buffer (org-capture-get :original-buffer) (replace-regexp-in-string \"\n\" \" \" (buffer-substring (region-beginning) (region-end))))][↗]]%?" :unnarrowed t))
+  :bind (("C-c n o" . org-pandoc-import-as-org)))
+;; install-org-pandoc-import ends here
+;; [[[[file:~/projects/org-basb-code/README.org::install-org-web-tools][install-org-web-tools]]][install-org-web-tools]]
+(use-package org-web-tools :ensure t
+  :bind (("C-c n u" . org-web-tools-read-url-as-org)))
+;; install-org-web-tools ends here
+;; [[[[file:~/projects/org-basb-code/README.org::install-helm-rg][install-helm-rg]]][install-helm-rg]]
+(use-package helm-rg :ensure t
+  :init
+  (defun helm-rg-roam-directory (&optional query)
+    "Search with rg in your roam directory, QUERY."
+    (interactive)
+    (let ((helm-rg-default-directory org-roam-directory))
+      (helm-rg query nil)))
+  :bind (("C-c n R" . helm-rg-roam-directory)))
+;; install-helm-rg ends here
+;; [[[[file:~/projects/org-basb-code/README.org::install-org-rifle][install-org-rifle]]][install-org-rifle]]
+(use-package helm-org-rifle :ensure t
+  :init
+  (defun org-rifle-roam-directory ()
+    (interactive)
+    (helm-org-rifle-directories org-roam-directory))
+  :bind (("C-c n s" . org-rifle-roam-directory)))
+;; install-org-rifle ends here
+;; [[[[file:~/projects/org-basb-code/README.org::install-deft][install-deft]]][install-deft]]
+(use-package deft :ensure t
+  :init (setq deft-directory org-roam-directory
+              deft-recursive t)
+  :bind (("C-c n d" . deft))
+  )
+;; (use-package helm-deft
+;;   :ensure t
+;;   :straight (:host github
+;;                    :repo "dfeich/helm-deft"
+;;                    :files ("*.el"))
+;;   :init
+;;   (setq helm-deft-dir-list `(,org-roam-directory)
+;;         helm-deft-extension '("org"))
+;;   :bind (("C-c n d" . helm-deft)))
 
-;; I'm getting errors saying somethign about facemenu.
-;; This line fixes them.
-(setq facemenu-menu nil)
-
-;; Intalls the package
-(use-package highlight :ensure t)
-
-(defface highlight-question
-  '((((class color) (min-colors 88) (background light))
-     :background "darkseagreen2")
-    (((class color) (min-colors 88) (background dark))
-     :background "darkolivegreen")
-    (((class color) (min-colors 16) (background light))
-     :background "darkseagreen2")
-    (((class color) (min-colors 16) (background dark))
-     :background "darkolivegreen")
-    (((class color) (min-colors 8))
-     :background "green" :foreground "black")
-    (t :inverse-video t))
-  "Face for highlighting questions."
-  :group 'basic-faces)
-
-(defface highlight-statement
-  '((((class color) (min-colors 88) (background light))
-     :background "#3c4c7a")
-    (((class color) (min-colors 88) (background dark))
-     :background "#3c4c7a")
-    (((class color) (min-colors 16) (background light))
-     :background "#3c4c7a")
-    (((class color) (min-colors 16) (background dark))
-     :background "#3c4c7a")
-    (((class color) (min-colors 8))
-     :background "blue" :foreground "black")
-    (t :inverse-video t))
-  "Face for highlighting statements."
-  :group 'basic-faces)
-
-(defface highlight-general
-  '((((class color) (min-colors 88) (background light))
-     :background "#614b61")
-    (((class color) (min-colors 88) (background dark))
-     :background "#614b61")
-    (((class color) (min-colors 16) (background light))
-     :background "#614b61")
-    (((class color) (min-colors 16) (background dark))
-     :background "#614b61")
-    (((class color) (min-colors 8))
-     :background "red" :foreground "black")
-    (t :inverse-video t))
-  "Face for highlighting."
-  :group 'basic-faces)
-
-(defun hlt-question()
-  (interactive)
-  (hlt-highlight-region (region-beginning) (region-end) 'highlight-question))
-
-(defun hlt-statement()
-  (interactive)
-  (hlt-highlight-region (region-beginning) (region-end) 'highlight-statement))
-
-(defun hlt-general()
-  (interactive)
-  (message "Im in hlt-general"
-  (hlt-highlight-region (region-beginning) (region-end) 'highlight-general)))
-
-(global-set-key (kbd "ESC M-h q") #'hlt-question)
-(global-set-key (kbd "ESC M-h s") #'hlt-statement)
-(global-set-key (kbd "ESC M-h h") #'hlt-general)
-(global-set-key (kbd "ESC M-h u") #'hlt-unhighlight-region)
-
-(defun r/do-highlight-on-capture ()
-  "Highlight selected region of the buffer you were in at capture."
-  (save-excursion
-    (with-current-buffer (plist-get org-capture-plist :original-buffer)
-      (hlt-general))))
-
-(defun r/highlight-on-capture ()
-  (message "Running highlight on capture hook")
-  (when (equal (plist-get org-capture-plist :key) "f")
-    (r/do-highlight-on-capture)))
-
-(add-hook 'org-capture-after-finalize-hook #'r/highlight-on-capture)
+;; install-deft ends here
+;; [[[[file:~/projects/org-basb-code/README.org::install-org-ql][install-org-ql]]][install-org-ql]]
+(use-package org-ql :ensure t
+  :init
+  (setq org-ql-search-directories-files-recursive t))
+(use-package helm-org-ql :ensure t
+  :init
+  (setq helm-org-ql-recursive-paths t)
+  :bind (("C-c n q" . helm-org-ql-org-directory)))
+;; install-org-ql ends here
+;; Emacs config:1 ends here

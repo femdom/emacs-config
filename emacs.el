@@ -136,6 +136,7 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-c C-j") 'yafolding-toggle-all)
 (global-set-key (kbd "C-c C-y") 'wsl-paste)
+(global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c RET") 'yafolding-toggle-element)
 (global-set-key (kbd "C-c s") 'helm-rg-project-root)
 (global-set-key (kbd "C-c t") 'window-toggle-split-direction)
